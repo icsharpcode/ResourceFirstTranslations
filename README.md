@@ -1,4 +1,4 @@
-ResourceFirstTranslations
+Resource-First Translations
 =========================
 
-Translation User eXperience Next Generation (TUX ng)
+Written by [Andreas Lillich](https://github.com/andreaslillich) (frontend) and [Christoph Wille](https://github.com/christophwille) (backend).
