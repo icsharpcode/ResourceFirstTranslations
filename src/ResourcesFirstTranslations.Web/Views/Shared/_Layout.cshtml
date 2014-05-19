@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        /* This helps the ng-show/ng-hide animations start at the right place. */
+        /* Since Angular has this but needs to load, this gives us the class early. */
+        .ng-hide {
+            display: none !important;
+        }
+    </style>
+    <title>@ApplicationInformation.Current.Name</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <script>
+        // Must be first. IE10 mobile viewport fix
+        (function () {
+            if ("-ms-user-select" in document.documentElement.style &&
+            (navigator.userAgent.match(/IEMobile/) ||
+                navigator.userAgent.match(/ZuneWP7/) ||
+                navigator.userAgent.match(/WPDesktop/))) {
+                var msViewportStyle = document.createElement("style");
+                msViewportStyle.appendChild(
+                    document.createTextNode("@@-ms-viewport{width:auto!important}")
+                );
+                document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+            }
+        })();
+    </script>
+    @Styles.Render("~/Content/admincss")
+    <style>
+        .row {
+            margin-left: -15px;
+            margin-right: 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand"><span class="brand-title">@ApplicationInformation.Current.Name</span></a>
+        </div>
+
+    </nav>
+    <div data-cc-sidebar="" class="ng-scope sidebar">
+        <div class="sidebar-filler"></div>
+        <div class="sidebar-dropdown"><a href="#">Menu</a></div>
+        <div class="sidebar-inner">
+            <div class="sidebar-widget">
+            </div>
+            <ul class="navi">
+                <li class="nlightblue fade-selection-animation"><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                <li class="nlightblue fade-selection-animation"><a href="/Administration/AdministrationHome/Index"><i class="fa fa-lock"></i> Administration</a></li>
+                <li class="nlightblue fade-selection-animation"><a href="/Translation"><i class="fa fa-lock"></i> Translation</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="content" class="mainbar">
+        <div class="row paddingLeft">
+            @RenderBody()
+        </div>
+    </div>
+    <!-- Vendor Scripts -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        var $sidebarInner = $(".sidebar").find(".sidebar-inner");
+        var $dropdownElement = $(".sidebar").find('.sidebar-dropdown a');
+        $dropdownElement.click(dropdown);
+        function dropdown(e) {
+            var dropClass = 'dropy';
+            e.preventDefault();
+            if (!$dropdownElement.hasClass(dropClass)) {
+                hideAllSidebars();
+                $sidebarInner.slideDown(350);
+                $dropdownElement.addClass(dropClass);
+            } else if ($dropdownElement.hasClass(dropClass)) {
+                $dropdownElement.removeClass(dropClass);
+                $sidebarInner.slideUp(350);
+            }
+
+            function hideAllSidebars() {
+                $sidebarInner.slideUp(350);
+                $('.sidebar-dropdown a').removeClass(dropClass);
+            }
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

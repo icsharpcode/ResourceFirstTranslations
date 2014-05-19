@@ -1,0 +1,45 @@
+﻿<section id="sendmail-view" class="mainbar" data-ng-controller="sendmail as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <form name="myForm" data-ng-submit="vm.Send()" novalidate>
+                        <div class="widget">
+                            <div data-cc-widget-header title="{{vm.title}}"></div>
+                            <div class="widget-content user">
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTopFirst" data-ng-class="{true: 'error'}[vm.submitted && myForm.Subject.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Subject:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="text" id="SubjectID" name="Subject" data-ng-model="vm.SendMail.Subject" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.Subject.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Subject is required.</span></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop" data-ng-class="{true: 'error'}[vm.submitted && myForm.Content.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Content:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <textarea class="form-control email-control" rows="6" name="Content" id="ContentID" data-ng-model="vm.SendMail.Content" data-ng-required="vm.submitted"></textarea>
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.Content.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Content is required.</span></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 nopadding">
+                                        <input class="btn btn-default buttonSmall" data-ng-click="vm.submitted=true" type="submit" value="Send email" />
+                                        <input class="btn btn-default buttonSmall" data-ng-click="vm.clearValues()" type="button" value="Cancel" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-foot">
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+    </section>
+</section>

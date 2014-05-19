@@ -1,0 +1,269 @@
+﻿<section id="translation-view" class="mainbar" data-ng-controller="translation as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget">
+                        <div data-cc-widget-header title="{{ vm.title }}" allow-collapse="true"></div>
+                        <div class="widget-content floatLeft">
+                            <div class="col-sm-12 col-md-12 col-lg-12 paddingTopFirst">
+                                <label class="col-sm-2 col-md-2 col-lg-2 control-label nopadding">Language:</label>
+                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                    <select class="form-control" data-ng-model="vm.currentLanguage" data-ng-options="c as c.Description for c in vm.Languages"></select>
+                                </div>
+                                <label class="col-sm-2 col-md-2 col-lg-2 control-label nopadding">Branch:</label>
+                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                    <select class="form-control" data-ng-model="vm.currentBranch" data-ng-options="c as c.BranchDisplayName for c in vm.Branches"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 marginTop paddingTop">
+                                <label class="col-sm-1 col-md-1 col-lg-1 control-label nopadding"><input type="checkbox" data-ng-model="vm.emptyTranslations" /></label>
+                                <label class="col-sm-11 col-md-11 col-lg-11 nopadding">
+                                    Show empty translations only (new resources added in main language)
+                                </label>
+
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="col-sm-1 col-md-1 col-lg-1 control-label nopadding"><input type="checkbox" data-ng-model="vm.modifiedTranslations" /></label>
+                                <label class="col-sm-11 col-md-11 col-lg-11 nopadding">
+                                    Show modified translations only (resources that were modified)
+                                </label>
+
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="col-sm-1 col-md-1 col-lg-1 control-label nopadding"><input type="checkbox" data-ng-model="vm.resourceName" /></label>
+                                <label class="col-sm-2 col-md-2 col-lg-2 nopadding">
+                                    Restrict to resource name
+                                </label>
+                                <div class="col-sm-9 col-md-9 col-lg-9 nopadding">
+                                    <input type="text" data-ng-model="vm.resourceFileName" />
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="col-sm-1 col-md-1 col-lg-1 control-label nopadding"><input type="checkbox" data-ng-model="vm.resourceValue" /></label>
+                                <label class="col-sm-2 col-md-2 col-lg-2 nopadding">
+                                    Restrict to resource value
+                                </label>
+                                <div class="col-sm-9 col-md-9 col-lg-9 nopadding">
+                                    <input type="text" data-ng-model="vm.resourceFileValue" />
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="col-sm-1 col-md-1 col-lg-1 control-label nopadding"><input type="checkbox" data-ng-model="vm.translationValue" /></label>
+                                <label class="col-sm-2 col-md-2 col-lg-2 nopadding">
+                                    Restrict to translation value
+                                </label>
+                                <div class="col-sm-9 col-md-9 col-lg-9 nopadding">
+                                    <input type="text" data-ng-model="vm.translationFileValue" />
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 marginTop paddingTop">
+                                <div class="col-sm-12 col-md-12 col-lg-12 nopadding">
+                                    <input class="btn btn-default buttonSmall" data-ng-click="vm.applyQuery()" type="submit" value="Apply Filter" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget">
+                        <div data-cc-widget-header title="{{ vm.resultTitle }}" allow-collapse="true"></div>
+                        <div class="widget-content text-info">
+                            <table class="table table-striped table-condensed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="ResourceIdentifier">
+                                            <a data-ng-click="vm.sort_by('ResourceIdentifier')" style="color: #555555;">
+                                                Resource identifier&nbsp;<i data-ng-class="vm.selectedCls('ResourceIdentifier')"></i>
+                                            </a>
+                                        </th>
+                                        <th class="ResxValue">
+                                            <a data-ng-click="vm.sort_by('ResxValue')" style="color: #555555;">
+                                                Original value&nbsp;<i data-ng-class="vm.selectedCls('ResxValue')"></i>
+                                            </a>
+                                        </th>
+                                        <th class="OriginalResxValueChangedSinceTranslation">
+                                            <a data-ng-click="vm.sort_by('OriginalResxValueChangedSinceTranslation')" style="color: #555555;">
+                                                Changed since&nbsp;<i data-ng-class="vm.selectedCls('OriginalResxValueChangedSinceTranslation')"></i>
+                                            </a>
+                                        </th>
+                                        <th class="TranslatedValue">
+                                            <a data-ng-click="vm.sort_by('OriginalResxValueChangedSinceTranslation')" style="color: #555555;">
+                                                Translated value&nbsp;<i data-ng-class="vm.selectedCls('TranslatedValue')"></i>
+                                            </a>
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    <tr data-ng-click="vm.editTranslation(item)" ng-repeat="item in vm.items | orderBy:vm.sort.sortingOrder:vm.sort.reverse">
+                                        <td class="textLeft">{{item.ResourceIdentifier}}</td>
+                                        <td class="textLeft">{{item.ResxValue}}</td>
+                                        <td><input type="checkbox" ng-disabled="true" data-ng-model="item.OriginalResxValueChangedSinceTranslation"></td>
+                                        <td class="textLeft">{{item.TranslatedValue}}</td>
+                                        <td data-ng-click="vm.editTranslation(item)">edit</td>
+
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="8">
+                                            <pagination boundary-links="true"
+                                                        on-select-page="vm.pageChanged(page)"
+                                                        total-items="vm.branchesFilteredCount"
+                                                        items-per-page="vm.paging.pageSize"
+                                                        page="vm.paging.currentPage"
+                                                        max-size="vm.paging.maxPagesToShow"
+                                                        class="pagination-small"
+                                                        previous-text="Prev"
+                                                        next-text="Next"
+                                                        first-text="First"
+                                                        last-text="Last"></pagination>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <form name="myForm" data-ng-submit="vm.Save()" novalidate>
+                        <div class="widget" data-ng-show="vm.showEditWidget">
+                            <div data-cc-widget-header title="{{ vm.editTitle }}" allow-collapse="true"></div>
+                            <div class="widget-content text-info floatLeft">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label nopadding">Resource identifier:</label>
+                                    <label class="col-sm-8 col-md-8 col-lg-8 control-label nopadding">
+                                        {{vm.editItem.ResourceIdentifier}}
+                                    </label>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label nopadding">Original value:</label>
+                                    <label class="col-sm-8 col-md-8 col-lg-8 control-label nopadding">
+                                        {{vm.editItem.ResxValue}}
+                                    </label>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 nopadding">
+                                        <input type="checkbox" disabled="disabled" data-ng-model="vm.editItem.OriginalResxValueChangedSinceTranslation" />
+                                        <label class="control-label nopadding">Original has changed since last translation</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <label class="col-sm-1 col-md-1 col-lg-1 control-label nopadding">
+                                        Translation
+                                    </label>
+                                    <div class="col-sm-11 col-md-11 col-lg-11">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-12 col-md-12 col-lg-12" data-ng-class="{true: 'error'}[vm.submitted && myForm.TranslatedValue.$invalid]">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 nopadding">
+                                        <textarea class="form-control input-lg" data-ng-model="vm.editItem.TranslatedValue" name="TranslatedValue" data-ng-required="vm.submitted" rows="4"></textarea>
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.TranslatedValue.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Missing Translation</span></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 control-label nopadding">Last changed:</label>
+                                    <label class="col-sm-9 col-md-9 col-lg-9 control-label nopadding">
+                                        {{ vm.setDate(vm.editItem.LastUpdated) }}
+                                    </label>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 control-label nopadding">By:</label>
+                                    <label class="col-sm-9 col-md-9 col-lg-9 control-label nopadding">
+                                        {{vm.editItem.LastUpdatedBy}}
+                                    </label>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop">
+
+                                    <div class="col-sm-2 col-md-2 col-lg-2 nopadding">
+                                        <input class="btn btn-default buttonXSmall" data-ng-click="vm.submitted = true" type="submit" value="Save" />
+                                    </div>
+                                    <div class="col-sm-3 col-md-3 col-lg-3 nopadding">
+                                        <input class="btn btn-default buttonXSmall" data-ng-click="vm.clearValues()" type="button" value="Cancel" />
+                                    </div>
+
+                                    <div class="col-sm-5 col-md-5 col-lg-5 nopadding">
+                                        <input type="checkbox" data-ng-model="vm.applyToAllBranches" />
+                                        <span style="display: inline-block">Apply to all branches</span>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2 nopadding">
+                                        <input class="btn btn-default buttonXSmall" data-ng-click="vm.closeEdit()" type="button" value="Close" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-foot">
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3">
+                    <div class="widget" data-ng-show="vm.showEditWidget">
+                        <div data-cc-widget-header title="{{ vm.editOtherBranches }}" allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info floatLeft">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <table class="table table-striped table-condensed table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Branch
+                                            </th>
+                                            <th>
+                                                Identical to this branch
+                                            </th>
+                                            <th>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in vm.editItem.Translations">
+                                            <td class="textLeft">{{item.BranchDisplayName}}</td>
+                                            <td class="textLeft"><input type="checkbox" disabled="disabled" ng-checked="vm.setIdentical(item.TranslatedValue)" /></td>
+                                            <td class="textLeft">
+                                                <span id="{{ 'popover_' + item.Id }}" popover="{{ item.TranslatedValue }}" popover-placement="left" popover-title="{{ item.BranchDisplayName }}" data-ng-show="vm.originalItem.TranslatedValue != item.TranslatedValue">View</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+    </section>
+</section>

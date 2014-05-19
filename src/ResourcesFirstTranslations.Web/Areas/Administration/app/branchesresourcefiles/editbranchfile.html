@@ -1,0 +1,55 @@
+﻿<section id="editbranchfile-view" class="mainbar" data-ng-controller="editbranchfile as vm">
+    <section class="matter">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <form name="myForm" data-ng-submit="vm.Save()" novalidate>
+                        <a href="" class="btn btn-info btn-form-md" data-ng-click="vm.goBack()">
+                            <i class="fa fa-hand-o-left"></i>
+                            Back
+                        </a>
+                        <div class="widget">
+                            <div data-cc-widget-header title="{{ vm.title }}"></div>
+                            <div class="widget-content text-info">
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTopFirst">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Branch:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <select class="form-control" data-ng-model="vm.currentBranch" data-ng-options="c as c.BranchDisplayName for c in vm.Branches"></select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Resource file:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <select class="form-control" data-ng-model="vm.currentResource" data-ng-options="c as c.ResourceFileDisplayName for c in vm.ResourceFiles"></select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop" data-ng-class="{true: 'error'}[vm.submitted && myForm.SyncRawPathAbsolute.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Sync path absolute:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="text" id="SyncRawPathAbsoluteID" name="SyncRawPathAbsolute" data-ng-model="vm.editItem.SyncRawPathAbsolute" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.SyncRawPathAbsolute.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Sync path is required.</span></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 nopadding">
+                                        <input class="btn btn-default buttonSmall" data-ng-click="vm.submitted=true" type="submit" value="Save" />
+                                        <input class="btn btn-default buttonSmall" data-ng-click="vm.clearValues()" type="button" value="Cancel" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-foot">
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+               
+            </div>
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+    </section>
+</section>

@@ -1,0 +1,83 @@
+﻿<section id="dashboard-view" class="mainbar" data-ng-controller="dashboard as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="myForm" data-ng-submit="vm.changeEmail()" novalidate>
+                        <div class="widget">
+                            <div data-cc-widget-header title="Welcome {{ vm.Translator.Name }}"></div>
+                            <div class="widget-content text-info floatLeft">
+                                <div class="col-sm-12 col-md-12 col-lg-12  marginTop paddingTopFirst">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 control-label nopadding">You are translating the following languages:</label>
+                                    <div class="col-sm-8 col-md-8 col-lg-8">
+                                        <div data-ng-repeat="c in vm.Translator.Languages">
+                                            {{c.Culture}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 marginTop paddingTop" data-ng-class="{true: 'error'}[vm.submitted && myForm.Email.$invalid]">
+                                    <label class="col-sm-1 col-md-1 col-lg-1 control-label nopadding">
+                                        Email:
+                                    </label>
+                                    <div class="col-sm-3 col-md-3 col-lg-3 nopadding">
+                                        <input class="form-control input-sm" type="text" id="EmailID" name="Email" data-ng-model="vm.Translator.Email" ng-pattern="vm.emailPattern" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.Email.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Email is required.</span></span>
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.Email.$error.pattern"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Enter a valid email address.</span></span>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 nopadding">
+                                        <input class="btn btn-default buttonSmall" data-ng-click="vm.submitted=true" type="submit" value="Change" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 marginTop paddingTop">
+                                    <label class="col-sm-1 col-md-1 col-lg-1 control-label nopadding">Password:</label>
+
+                                    <div class="col-sm-3 col-md-3 col-lg-3 nopadding">
+                                        <input class="btn btn-default buttonLarge" data-ng-click="vm.setPassword()" type="button" value="Change password" />
+                                    </div>
+                                    <div class="col-sm-8 col-md-8 col-lg-8"></div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12  marginTop paddingTop">
+                                    <label class="col-sm-7 col-md-7 col-lg-6 control-label nopadding">Generate resource file for:</label>
+                                    <div class="col-sm-2 col-md-2 col-lg-2">
+
+                                    </div>
+                                    <div class="col-sm-3 col-md-3 col-lg-4">
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <label class="col-sm-3 col-md-3 col-lg-3 control-label nopadding">Branch:</label>
+                                    <label class="col-sm-4 col-md-4 col-lg-4 control-label nopadding">Resource file:</label>
+                                    <label class="col-sm-2 col-md-2 col-lg-2 control-label nopadding">Language:</label>
+                                    <label class="col-sm-3 col-md-3 col-lg-3 control-label nopadding"></label>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-sm-3 col-md-3 col-lg-3 nopadding">
+                                        <select class="form-control" data-ng-model="vm.currentBranch" data-ng-options="c as c.BranchDisplayName for c in vm.Branches"></select>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 nopadding">
+                                        <select class="form-control" data-ng-model="vm.currentResource" data-ng-options="c as c.ResourceFileDisplayName for c in vm.ResourceFiles"></select>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2 nopadding">
+                                        <select class="form-control" data-ng-model="vm.currentLanguage" data-ng-options="c as c.Culture for c in vm.Translator.Languages"></select>
+                                    </div>
+                                    <div class="col-sm-3 col-md-3 col-lg-3 nopadding">
+                                        <input class="btn btn-default buttonSmall" data-ng-click="vm.Download()" type="button" value="Download" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-foot">
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+               
+            </div>
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+    </section>
+</section>

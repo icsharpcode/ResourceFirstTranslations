@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>RFT</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    </head>
+<body>
+    <div class="container body-content">
+        <div class="jumbotron">
+            <h1>Resource-First Translations</h1>
+            <p class="lead">
+                Written by <a href="https://github.com/andreaslillich">Andreas Lillich</a> (frontend) and
+                <a href="https://github.com/christophwille">Christoph Wille</a> (backend).
+            </p>
+            <p><a href="https://github.com/icsharpcode/resourcefirsttranslations/" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Getting involved</h2>
+                <p>
+                    We definitely want to hear your feedback on how this solution works for you. It was written with the needs
+                    of the SharpDevelop project in mind, but should absolutely work for any developer-centric project that needs
+                    resources translated to various languages.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2>Administration</h2>
+                <p>The <a href="/Administration/AdministrationHome/Index"><i class="fa fa-lock"></i> Administration</a> area is secured by sign-in</p>
+                <p>
+                    Branches, resource files, languages and users are administered here. You can also reach out
+                    to all users via email.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2>Translation</h2>
+                <p>The <a href="/Translation"><i class="fa fa-lock"></i> Translation</a> area is secured by sign-in</p>
+                <p>
+                    This single-page application allows you to search for translations based on tried and
+                    true criteria. The design will help you get your work done quickly and efficiently.
+                </p>
+            </div>
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Resource-First Translations @ApplicationInformation.Current.Version</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

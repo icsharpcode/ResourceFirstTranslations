@@ -1,0 +1,804 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Branches">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="BranchDisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BranchRootUrl" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BranchResourceFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_BranchId" Type="int" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="int" Nullable="false" />
+          <Property Name="SyncRawPathAbsolute" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Languages">
+          <Key>
+            <PropertyRef Name="Culture" />
+          </Key>
+          <Property Name="Culture" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourceFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ResourceFileDisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ResourceFileNameFormat" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourceStrings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_BranchId" Type="int" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="int" Nullable="false" />
+          <Property Name="ResourceIdentifier" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ResxValue" Type="nvarchar(max)" />
+          <Property Name="ResxComment" Type="nvarchar(max)" />
+          <Property Name="LastUpdatedFromRepository" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Translations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_BranchId" Type="int" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="int" Nullable="false" />
+          <Property Name="ResourceIdentifier" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Culture" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="OriginalResxValueAtTranslation" Type="nvarchar(max)" />
+          <Property Name="OriginalResxValueChangedSinceTranslation" Type="bit" Nullable="false" />
+          <Property Name="TranslatedValue" Type="nvarchar(max)" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+          <Property Name="TS" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="Cultures" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'rft.dbo.BranchResourceFilesView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="BranchResourceFilesView">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FK_BranchId" Type="int" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="int" Nullable="false" />
+          <Property Name="SyncRawPathAbsolute" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="BranchDisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BranchRootUrl" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ResourceFileDisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ResourceFileNameFormat" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'rft.dbo.MissingTranslationsView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MissingTranslationsView">
+          <Key>
+            <PropertyRef Name="Culture" />
+            <PropertyRef Name="FK_BranchId" />
+          </Key>
+          <Property Name="Culture" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="FK_BranchId" Type="int" Nullable="false" />
+          <Property Name="MissingTranslations" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'rft.dbo.TranslationsAllBranchesView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TranslationsAllBranchesView">
+          <Key>
+            <PropertyRef Name="Id" />
+            
+            
+            
+            
+            
+            
+            
+            
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FK_BranchId" Type="int" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="int" Nullable="false" />
+          <Property Name="ResourceIdentifier" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Culture" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="OriginalResxValueAtTranslation" Type="nvarchar(max)" />
+          <Property Name="OriginalResxValueChangedSinceTranslation" Type="bit" Nullable="false" />
+          <Property Name="TranslatedValue" Type="nvarchar(max)" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ResxValue" Type="nvarchar(max)" />
+          <Property Name="ResxComment" Type="nvarchar(max)" />
+          <Property Name="LastUpdatedFromRepository" Type="datetime" Nullable="false" />
+          <Property Name="RowNumber" Type="bigint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'rft.dbo.TranslationsJoinedResourceStringsView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TranslationsJoinedResourceStringsView">
+          <Key>
+            <PropertyRef Name="Id" />
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FK_BranchId" Type="int" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="int" Nullable="false" />
+          <Property Name="ResourceIdentifier" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Culture" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="OriginalResxValueAtTranslation" Type="nvarchar(max)" />
+          <Property Name="OriginalResxValueChangedSinceTranslation" Type="bit" Nullable="false" />
+          <Property Name="TranslatedValue" Type="nvarchar(max)" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BranchDisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ResxValue" Type="nvarchar(max)" />
+          <Property Name="ResxComment" Type="nvarchar(max)" />
+          <Property Name="LastUpdatedFromRepository" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BranchResourceFiles_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="BranchResourceFiles" Type="Self.BranchResourceFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BranchResourceFiles">
+              <PropertyRef Name="FK_BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BranchResourceFiles_ResourceFiles">
+          <End Role="ResourceFiles" Type="Self.ResourceFiles" Multiplicity="1" />
+          <End Role="BranchResourceFiles" Type="Self.BranchResourceFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceFiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BranchResourceFiles">
+              <PropertyRef Name="FK_ResourceFileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceStrings_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="ResourceStrings" Type="Self.ResourceStrings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceStrings">
+              <PropertyRef Name="FK_BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceStrings_ResourceFiles">
+          <End Role="ResourceFiles" Type="Self.ResourceFiles" Multiplicity="1" />
+          <End Role="ResourceStrings" Type="Self.ResourceStrings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceFiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceStrings">
+              <PropertyRef Name="FK_ResourceFileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Translations_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Translations" Type="Self.Translations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Translations">
+              <PropertyRef Name="FK_BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Translations_ResourceFiles">
+          <End Role="ResourceFiles" Type="Self.ResourceFiles" Multiplicity="1" />
+          <End Role="Translations" Type="Self.Translations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceFiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Translations">
+              <PropertyRef Name="FK_ResourceFileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_getalltranslationsforresource" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="doc" Type="ntext" Mode="In" />
+        </Function>
+        <EntityContainer Name="RftModelStoreContainer">
+          <EntitySet Name="Branches" EntityType="Self.Branches" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BranchResourceFiles" EntityType="Self.BranchResourceFiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceFiles" EntityType="Self.ResourceFiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceStrings" EntityType="Self.ResourceStrings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Translations" EntityType="Self.Translations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BranchResourceFilesView" EntityType="Self.BranchResourceFilesView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [BranchResourceFilesView].[Id] AS [Id], 
+    [BranchResourceFilesView].[FK_BranchId] AS [FK_BranchId], 
+    [BranchResourceFilesView].[FK_ResourceFileId] AS [FK_ResourceFileId], 
+    [BranchResourceFilesView].[SyncRawPathAbsolute] AS [SyncRawPathAbsolute], 
+    [BranchResourceFilesView].[BranchDisplayName] AS [BranchDisplayName], 
+    [BranchResourceFilesView].[BranchRootUrl] AS [BranchRootUrl], 
+    [BranchResourceFilesView].[ResourceFileDisplayName] AS [ResourceFileDisplayName], 
+    [BranchResourceFilesView].[ResourceFileNameFormat] AS [ResourceFileNameFormat]
+    FROM [dbo].[BranchResourceFilesView] AS [BranchResourceFilesView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MissingTranslationsView" EntityType="Self.MissingTranslationsView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MissingTranslationsView].[Culture] AS [Culture], 
+    [MissingTranslationsView].[FK_BranchId] AS [FK_BranchId], 
+    [MissingTranslationsView].[MissingTranslations] AS [MissingTranslations]
+    FROM [dbo].[MissingTranslationsView] AS [MissingTranslationsView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TranslationsAllBranchesView" EntityType="Self.TranslationsAllBranchesView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TranslationsAllBranchesView].[Id] AS [Id], 
+    [TranslationsAllBranchesView].[FK_BranchId] AS [FK_BranchId], 
+    [TranslationsAllBranchesView].[FK_ResourceFileId] AS [FK_ResourceFileId], 
+    [TranslationsAllBranchesView].[ResourceIdentifier] AS [ResourceIdentifier], 
+    [TranslationsAllBranchesView].[Culture] AS [Culture], 
+    [TranslationsAllBranchesView].[OriginalResxValueAtTranslation] AS [OriginalResxValueAtTranslation], 
+    [TranslationsAllBranchesView].[OriginalResxValueChangedSinceTranslation] AS [OriginalResxValueChangedSinceTranslation], 
+    [TranslationsAllBranchesView].[TranslatedValue] AS [TranslatedValue], 
+    [TranslationsAllBranchesView].[LastUpdated] AS [LastUpdated], 
+    [TranslationsAllBranchesView].[LastUpdatedBy] AS [LastUpdatedBy], 
+    [TranslationsAllBranchesView].[ResxValue] AS [ResxValue], 
+    [TranslationsAllBranchesView].[ResxComment] AS [ResxComment], 
+    [TranslationsAllBranchesView].[LastUpdatedFromRepository] AS [LastUpdatedFromRepository], 
+    [TranslationsAllBranchesView].[RowNumber] AS [RowNumber]
+    FROM [dbo].[TranslationsAllBranchesView] AS [TranslationsAllBranchesView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TranslationsJoinedResourceStringsView" EntityType="Self.TranslationsJoinedResourceStringsView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TranslationsJoinedResourceStringsView].[Id] AS [Id], 
+    [TranslationsJoinedResourceStringsView].[FK_BranchId] AS [FK_BranchId], 
+    [TranslationsJoinedResourceStringsView].[FK_ResourceFileId] AS [FK_ResourceFileId], 
+    [TranslationsJoinedResourceStringsView].[ResourceIdentifier] AS [ResourceIdentifier], 
+    [TranslationsJoinedResourceStringsView].[Culture] AS [Culture], 
+    [TranslationsJoinedResourceStringsView].[OriginalResxValueAtTranslation] AS [OriginalResxValueAtTranslation], 
+    [TranslationsJoinedResourceStringsView].[OriginalResxValueChangedSinceTranslation] AS [OriginalResxValueChangedSinceTranslation], 
+    [TranslationsJoinedResourceStringsView].[TranslatedValue] AS [TranslatedValue], 
+    [TranslationsJoinedResourceStringsView].[LastUpdated] AS [LastUpdated], 
+    [TranslationsJoinedResourceStringsView].[LastUpdatedBy] AS [LastUpdatedBy], 
+    [TranslationsJoinedResourceStringsView].[BranchDisplayName] AS [BranchDisplayName], 
+    [TranslationsJoinedResourceStringsView].[ResxValue] AS [ResxValue], 
+    [TranslationsJoinedResourceStringsView].[ResxComment] AS [ResxComment], 
+    [TranslationsJoinedResourceStringsView].[LastUpdatedFromRepository] AS [LastUpdatedFromRepository]
+    FROM [dbo].[TranslationsJoinedResourceStringsView] AS [TranslationsJoinedResourceStringsView]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_BranchResourceFiles_Branches" Association="Self.FK_BranchResourceFiles_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="BranchResourceFiles" EntitySet="BranchResourceFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BranchResourceFiles_ResourceFiles" Association="Self.FK_BranchResourceFiles_ResourceFiles">
+            <End Role="ResourceFiles" EntitySet="ResourceFiles" />
+            <End Role="BranchResourceFiles" EntitySet="BranchResourceFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceStrings_Branches" Association="Self.FK_ResourceStrings_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="ResourceStrings" EntitySet="ResourceStrings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceStrings_ResourceFiles" Association="Self.FK_ResourceStrings_ResourceFiles">
+            <End Role="ResourceFiles" EntitySet="ResourceFiles" />
+            <End Role="ResourceStrings" EntitySet="ResourceStrings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Translations_Branches" Association="Self.FK_Translations_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Translations" EntitySet="Translations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Translations_ResourceFiles" Association="Self.FK_Translations_ResourceFiles">
+            <End Role="ResourceFiles" EntitySet="ResourceFiles" />
+            <End Role="Translations" EntitySet="Translations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordSalt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="TS" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <Property Name="Cultures" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="RftContext" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Branches" EntityType="RftModel.Branch" />
+          <EntitySet Name="BranchResourceFiles" EntityType="RftModel.BranchResourceFile" />
+          <EntitySet Name="ResourceFiles" EntityType="RftModel.ResourceFile" />
+          <EntitySet Name="ResourceStrings" EntityType="RftModel.ResourceString" />
+          <EntitySet Name="Translations" EntityType="RftModel.Translation" />
+          <AssociationSet Name="FK_BranchResourceFiles_Branches" Association="RftModel.FK_BranchResourceFiles_Branches">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="BranchResourceFile" EntitySet="BranchResourceFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceStrings_Branches" Association="RftModel.FK_ResourceStrings_Branches">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="ResourceString" EntitySet="ResourceStrings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Translations_Branches" Association="RftModel.FK_Translations_Branches">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="Translation" EntitySet="Translations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BranchResourceFiles_ResourceFiles" Association="RftModel.FK_BranchResourceFiles_ResourceFiles">
+            <End Role="ResourceFile" EntitySet="ResourceFiles" />
+            <End Role="BranchResourceFile" EntitySet="BranchResourceFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceStrings_ResourceFiles" Association="RftModel.FK_ResourceStrings_ResourceFiles">
+            <End Role="ResourceFile" EntitySet="ResourceFiles" />
+            <End Role="ResourceString" EntitySet="ResourceStrings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Translations_ResourceFiles" Association="RftModel.FK_Translations_ResourceFiles">
+            <End Role="ResourceFile" EntitySet="ResourceFiles" />
+            <End Role="Translation" EntitySet="Translations" />
+          </AssociationSet>
+          <EntitySet Name="TranslationAllBranches" EntityType="RftModel.TranslationsAllBranchesView" />
+          <EntitySet Name="Languages" EntityType="RftModel.Language" />
+          <EntitySet Name="TranslationsJoinedResourceStringsViews" EntityType="RftModel.TranslationsJoinedResourceStringsView" />
+          <EntitySet Name="MissingTranslationsViews" EntityType="RftModel.MissingTranslationsView" />
+          <FunctionImport Name="GetAllTranslationsForResource" ReturnType="Collection(RftModel.AllTranslationsForResource)">
+          <Parameter Name="doc" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="BranchResourceFilesViews" EntityType="RftModel.BranchResourceFilesView" />
+        </EntityContainer>
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="BranchDisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BranchRootUrl" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BranchResourceFiles" Relationship="RftModel.FK_BranchResourceFiles_Branches" FromRole="Branch" ToRole="BranchResourceFile" />
+          <NavigationProperty Name="ResourceStrings" Relationship="RftModel.FK_ResourceStrings_Branches" FromRole="Branch" ToRole="ResourceString" />
+          <NavigationProperty Name="Translations" Relationship="RftModel.FK_Translations_Branches" FromRole="Branch" ToRole="Translation" />
+        </EntityType>
+        <EntityType Name="BranchResourceFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_BranchId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Branch" Relationship="RftModel.FK_BranchResourceFiles_Branches" FromRole="BranchResourceFile" ToRole="Branch" />
+          <NavigationProperty Name="ResourceFile" Relationship="RftModel.FK_BranchResourceFiles_ResourceFiles" FromRole="BranchResourceFile" ToRole="ResourceFile" />
+          <Property Name="SyncRawPathAbsolute" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ResourceFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ResourceFileDisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BranchResourceFiles" Relationship="RftModel.FK_BranchResourceFiles_ResourceFiles" FromRole="ResourceFile" ToRole="BranchResourceFile" />
+          <NavigationProperty Name="ResourceStrings" Relationship="RftModel.FK_ResourceStrings_ResourceFiles" FromRole="ResourceFile" ToRole="ResourceString" />
+          <NavigationProperty Name="Translations" Relationship="RftModel.FK_Translations_ResourceFiles" FromRole="ResourceFile" ToRole="Translation" />
+          <Property Name="ResourceFileNameFormat" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ResourceString">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_BranchId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="Int32" Nullable="false" />
+          <Property Name="ResourceIdentifier" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ResxValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResxComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedFromRepository" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Branch" Relationship="RftModel.FK_ResourceStrings_Branches" FromRole="ResourceString" ToRole="Branch" />
+          <NavigationProperty Name="ResourceFile" Relationship="RftModel.FK_ResourceStrings_ResourceFiles" FromRole="ResourceString" ToRole="ResourceFile" />
+        </EntityType>
+        <EntityType Name="Translation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_BranchId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="Int32" Nullable="false" />
+          <Property Name="ResourceIdentifier" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Culture" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TranslatedValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Branch" Relationship="RftModel.FK_Translations_Branches" FromRole="Translation" ToRole="Branch" />
+          <NavigationProperty Name="ResourceFile" Relationship="RftModel.FK_Translations_ResourceFiles" FromRole="Translation" ToRole="ResourceFile" />
+          <Property Name="OriginalResxValueAtTranslation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OriginalResxValueChangedSinceTranslation" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BranchResourceFiles_Branches">
+          <End Type="RftModel.Branch" Role="Branch" Multiplicity="1" />
+          <End Type="RftModel.BranchResourceFile" Role="BranchResourceFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BranchResourceFile">
+              <PropertyRef Name="FK_BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceStrings_Branches">
+          <End Type="RftModel.Branch" Role="Branch" Multiplicity="1" />
+          <End Type="RftModel.ResourceString" Role="ResourceString" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceString">
+              <PropertyRef Name="FK_BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Translations_Branches">
+          <End Type="RftModel.Branch" Role="Branch" Multiplicity="1" />
+          <End Type="RftModel.Translation" Role="Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Translation">
+              <PropertyRef Name="FK_BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BranchResourceFiles_ResourceFiles">
+          <End Type="RftModel.ResourceFile" Role="ResourceFile" Multiplicity="1" />
+          <End Type="RftModel.BranchResourceFile" Role="BranchResourceFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceFile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BranchResourceFile">
+              <PropertyRef Name="FK_ResourceFileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceStrings_ResourceFiles">
+          <End Type="RftModel.ResourceFile" Role="ResourceFile" Multiplicity="1" />
+          <End Type="RftModel.ResourceString" Role="ResourceString" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceFile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceString">
+              <PropertyRef Name="FK_ResourceFileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Translations_ResourceFiles">
+          <End Type="RftModel.ResourceFile" Role="ResourceFile" Multiplicity="1" />
+          <End Type="RftModel.Translation" Role="Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceFile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Translation">
+              <PropertyRef Name="FK_ResourceFileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TranslationsAllBranchesView">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_BranchId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="Int32" Nullable="false" />
+          <Property Name="ResourceIdentifier" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Culture" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TranslatedValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RowNumber" Type="Int64" />
+          <Property Name="OriginalResxValueAtTranslation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OriginalResxValueChangedSinceTranslation" Type="Boolean" Nullable="false" />
+          <Property Name="ResxValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResxComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedFromRepository" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="Culture" />
+          </Key>
+          <Property Name="Culture" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TranslationsJoinedResourceStringsView">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FK_BranchId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="Int32" Nullable="false" />
+          <Property Name="ResourceIdentifier" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Culture" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="OriginalResxValueAtTranslation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OriginalResxValueChangedSinceTranslation" Type="Boolean" Nullable="false" />
+          <Property Name="TranslatedValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ResxValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResxComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedFromRepository" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BranchDisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MissingTranslationsView">
+          <Key>
+            <PropertyRef Name="Culture" />
+            <PropertyRef Name="FK_BranchId" />
+          </Key>
+          <Property Name="Culture" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FK_BranchId" Type="Int32" Nullable="false" />
+          <Property Name="MissingTranslations" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="AllTranslationsForResource">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="FK_BranchId" Nullable="false" />
+          <Property Type="Int32" Name="FK_ResourceFileId" Nullable="false" />
+          <Property Type="String" Name="ResourceIdentifier" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Culture" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="OriginalResxValueAtTranslation" Nullable="true" />
+          <Property Type="Boolean" Name="OriginalResxValueChangedSinceTranslation" Nullable="false" />
+          <Property Type="String" Name="TranslatedValue" Nullable="true" />
+          <Property Type="DateTime" Name="LastUpdated" Nullable="false" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BranchDisplayName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ResxValue" Nullable="true" />
+          <Property Type="String" Name="ResxComment" Nullable="true" />
+          <Property Type="DateTime" Name="LastUpdatedFromRepository" Nullable="false" Precision="23" />
+        </ComplexType>
+        <EntityType Name="BranchResourceFilesView">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FK_BranchId" Type="Int32" Nullable="false" />
+          <Property Name="FK_ResourceFileId" Type="Int32" Nullable="false" />
+          <Property Name="SyncRawPathAbsolute" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BranchDisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BranchRootUrl" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ResourceFileDisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ResourceFileNameFormat" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RftModelStoreContainer" CdmEntityContainer="RftContext">
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="RftModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Cultures" ColumnName="Cultures" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="TS" ColumnName="TS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="RftModel.Branch">
+              <MappingFragment StoreEntitySet="Branches">
+                <ScalarProperty Name="BranchRootUrl" ColumnName="BranchRootUrl" />
+                <ScalarProperty Name="BranchDisplayName" ColumnName="BranchDisplayName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BranchResourceFiles">
+            <EntityTypeMapping TypeName="RftModel.BranchResourceFile">
+              <MappingFragment StoreEntitySet="BranchResourceFiles">
+                <ScalarProperty Name="SyncRawPathAbsolute" ColumnName="SyncRawPathAbsolute" />
+                <ScalarProperty Name="FK_ResourceFileId" ColumnName="FK_ResourceFileId" />
+                <ScalarProperty Name="FK_BranchId" ColumnName="FK_BranchId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceFiles">
+            <EntityTypeMapping TypeName="RftModel.ResourceFile">
+              <MappingFragment StoreEntitySet="ResourceFiles">
+                <ScalarProperty Name="ResourceFileNameFormat" ColumnName="ResourceFileNameFormat" />
+                <ScalarProperty Name="ResourceFileDisplayName" ColumnName="ResourceFileDisplayName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceStrings">
+            <EntityTypeMapping TypeName="RftModel.ResourceString">
+              <MappingFragment StoreEntitySet="ResourceStrings">
+                <ScalarProperty Name="LastUpdatedFromRepository" ColumnName="LastUpdatedFromRepository" />
+                <ScalarProperty Name="ResxComment" ColumnName="ResxComment" />
+                <ScalarProperty Name="ResxValue" ColumnName="ResxValue" />
+                <ScalarProperty Name="ResourceIdentifier" ColumnName="ResourceIdentifier" />
+                <ScalarProperty Name="FK_ResourceFileId" ColumnName="FK_ResourceFileId" />
+                <ScalarProperty Name="FK_BranchId" ColumnName="FK_BranchId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Translations">
+            <EntityTypeMapping TypeName="RftModel.Translation">
+              <MappingFragment StoreEntitySet="Translations">
+                <ScalarProperty Name="OriginalResxValueChangedSinceTranslation" ColumnName="OriginalResxValueChangedSinceTranslation" />
+                <ScalarProperty Name="OriginalResxValueAtTranslation" ColumnName="OriginalResxValueAtTranslation" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="TranslatedValue" ColumnName="TranslatedValue" />
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="ResourceIdentifier" ColumnName="ResourceIdentifier" />
+                <ScalarProperty Name="FK_ResourceFileId" ColumnName="FK_ResourceFileId" />
+                <ScalarProperty Name="FK_BranchId" ColumnName="FK_BranchId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TranslationAllBranches">
+            <EntityTypeMapping TypeName="RftModel.TranslationsAllBranchesView">
+              <MappingFragment StoreEntitySet="TranslationsAllBranchesView">
+                <ScalarProperty Name="LastUpdatedFromRepository" ColumnName="LastUpdatedFromRepository" />
+                <ScalarProperty Name="ResxComment" ColumnName="ResxComment" />
+                <ScalarProperty Name="ResxValue" ColumnName="ResxValue" />
+                <ScalarProperty Name="OriginalResxValueChangedSinceTranslation" ColumnName="OriginalResxValueChangedSinceTranslation" />
+                <ScalarProperty Name="OriginalResxValueAtTranslation" ColumnName="OriginalResxValueAtTranslation" />
+                <ScalarProperty Name="RowNumber" ColumnName="RowNumber" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="TranslatedValue" ColumnName="TranslatedValue" />
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="ResourceIdentifier" ColumnName="ResourceIdentifier" />
+                <ScalarProperty Name="FK_ResourceFileId" ColumnName="FK_ResourceFileId" />
+                <ScalarProperty Name="FK_BranchId" ColumnName="FK_BranchId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Languages">
+            <EntityTypeMapping TypeName="RftModel.Language">
+              <MappingFragment StoreEntitySet="Languages">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TranslationsJoinedResourceStringsViews">
+            <EntityTypeMapping TypeName="RftModel.TranslationsJoinedResourceStringsView">
+              <MappingFragment StoreEntitySet="TranslationsJoinedResourceStringsView">
+                <ScalarProperty Name="BranchDisplayName" ColumnName="BranchDisplayName" />
+                <ScalarProperty Name="LastUpdatedFromRepository" ColumnName="LastUpdatedFromRepository" />
+                <ScalarProperty Name="ResxComment" ColumnName="ResxComment" />
+                <ScalarProperty Name="ResxValue" ColumnName="ResxValue" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="TranslatedValue" ColumnName="TranslatedValue" />
+                <ScalarProperty Name="OriginalResxValueChangedSinceTranslation" ColumnName="OriginalResxValueChangedSinceTranslation" />
+                <ScalarProperty Name="OriginalResxValueAtTranslation" ColumnName="OriginalResxValueAtTranslation" />
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="ResourceIdentifier" ColumnName="ResourceIdentifier" />
+                <ScalarProperty Name="FK_ResourceFileId" ColumnName="FK_ResourceFileId" />
+                <ScalarProperty Name="FK_BranchId" ColumnName="FK_BranchId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MissingTranslationsViews">
+            <EntityTypeMapping TypeName="RftModel.MissingTranslationsView">
+              <MappingFragment StoreEntitySet="MissingTranslationsView">
+                <ScalarProperty Name="MissingTranslations" ColumnName="MissingTranslations" />
+                <ScalarProperty Name="FK_BranchId" ColumnName="FK_BranchId" />
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAllTranslationsForResource" FunctionName="RftModel.Store.sp_getalltranslationsforresource">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RftModel.AllTranslationsForResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FK_BranchId" ColumnName="FK_BranchId" />
+                <ScalarProperty Name="FK_ResourceFileId" ColumnName="FK_ResourceFileId" />
+                <ScalarProperty Name="ResourceIdentifier" ColumnName="ResourceIdentifier" />
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="OriginalResxValueAtTranslation" ColumnName="OriginalResxValueAtTranslation" />
+                <ScalarProperty Name="OriginalResxValueChangedSinceTranslation" ColumnName="OriginalResxValueChangedSinceTranslation" />
+                <ScalarProperty Name="TranslatedValue" ColumnName="TranslatedValue" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="BranchDisplayName" ColumnName="BranchDisplayName" />
+                <ScalarProperty Name="ResxValue" ColumnName="ResxValue" />
+                <ScalarProperty Name="ResxComment" ColumnName="ResxComment" />
+                <ScalarProperty Name="LastUpdatedFromRepository" ColumnName="LastUpdatedFromRepository" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="BranchResourceFilesViews">
+            <EntityTypeMapping TypeName="RftModel.BranchResourceFilesView">
+              <MappingFragment StoreEntitySet="BranchResourceFilesView">
+                <ScalarProperty Name="ResourceFileNameFormat" ColumnName="ResourceFileNameFormat" />
+                <ScalarProperty Name="ResourceFileDisplayName" ColumnName="ResourceFileDisplayName" />
+                <ScalarProperty Name="BranchRootUrl" ColumnName="BranchRootUrl" />
+                <ScalarProperty Name="BranchDisplayName" ColumnName="BranchDisplayName" />
+                <ScalarProperty Name="SyncRawPathAbsolute" ColumnName="SyncRawPathAbsolute" />
+                <ScalarProperty Name="FK_ResourceFileId" ColumnName="FK_ResourceFileId" />
+                <ScalarProperty Name="FK_BranchId" ColumnName="FK_BranchId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

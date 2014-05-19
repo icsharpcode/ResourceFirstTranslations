@@ -1,0 +1,58 @@
+﻿<section id="newresourcefile-view" class="mainbar" data-ng-controller="newresourcefile as vm">
+    <section class="matter">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <form name="myForm" data-ng-submit="vm.Save()" novalidate>
+                        <a href="" class="btn btn-info btn-form-md" data-ng-click="vm.goBack()">
+                            <i class="fa fa-hand-o-left"></i>
+                            Back
+                        </a>
+                        <div class="widget">
+                            <div data-cc-widget-header title="{{ vm.title }}"></div>
+                            <div class="widget-content text-info">
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTopFirst" data-ng-class="{true: 'error'}[vm.submitted && myForm.ResourceFileId.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Id:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="number" ng-min="vm.minId" id="ResourceFileID" name="ResourceFileId" data-ng-model="vm.item.Id" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.ResourceFileId.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Id is required.</span></span>
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.ResourceFileId.$error.ngMin"><span title="Number" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Must be greater than zero</span></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop" data-ng-class="{true: 'error'}[vm.submitted && myForm.ResourceFileDisplayName.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Name:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="text" id="ResourceFileDisplayNameID" name="ResourceFileDisplayName" data-ng-model="vm.item.ResourceFileDisplayName" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.ResourceFileDisplayName.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Display name is required.</span></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop" data-ng-class="{true: 'error'}[vm.submitted && myForm.ResourceFileNameFormat.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Name format:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="text" id="ResourceFileDisplayNameID" name="ResourceFileNameFormat" data-ng-model="vm.item.ResourceFileNameFormat" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.ResourceFileNameFormat.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Name format is required.</span></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 nopadding">
+                                        <input class="btn btn-default buttonSmall" data-ng-click="vm.submitted=true" type="submit" value="Save" />
+                                        <input class="btn btn-default buttonSmall" data-ng-click="vm.clearValues()" type="button" value="Cancel" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="widget-foot">
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+    </section>
+</section>

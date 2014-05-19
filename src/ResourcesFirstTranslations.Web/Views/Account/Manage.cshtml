@@ -1,0 +1,24 @@
+﻿@using ResourcesFirstTranslations.Web.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Manage Account";
+}
+
+
+
+<div class="col-md-12 col-sm-12 col-lg-12 paddingTop">
+
+  
+    @if (ViewBag.HasLocalPassword)
+    {
+        @Html.Partial("_ChangePasswordPartial")
+    }
+    else
+    {
+        @Html.Partial("_SetPasswordPartial")
+    }
+</div>
+
+
+

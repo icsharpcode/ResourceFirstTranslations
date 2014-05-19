@@ -1,0 +1,80 @@
+﻿<section id="branches-view" class="mainbar" data-ng-controller="branches as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <button class="btn btn-info btn-form-md" data-ng-click="vm.createNew()">
+                        <i class="fa fa fa-plus"></i>
+                        New
+                    </button>
+                    <div class="widget">
+                        <div data-cc-widget-header title="{{vm.title}}"></div>
+
+                        <div class="widget-content text-info">
+                            <table class="table table-striped table-condensed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="BranchId">
+                                            <a data-ng-click="vm.sort_by('Id')" style="color: #555555;">
+                                                Id&nbsp;<i data-ng-class="vm.selectedCls('Id')"></i>
+                                            </a>
+                                        </th>
+                                        <th class="BranchDisplayName">
+                                            <a data-ng-click="vm.sort_by('BranchDisplayName')" style="color: #555555;">
+                                                Name&nbsp;<i data-ng-class="vm.selectedCls('BranchDisplayName')"></i>
+                                            </a>
+                                        </th>
+                                        <th class="BranchRootUrl">
+                                            <a data-ng-click="vm.sort_by('BranchRootUrl')" style="color: #555555;">
+                                                Url&nbsp;<i data-ng-class="vm.selectedCls('BranchRootUrl')"></i>
+                                            </a>
+                                        </th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    <tr ng-repeat="item in vm.items | orderBy:vm.sort.sortingOrder:vm.sort.reverse">
+                                        <td class="textLeft">{{item.Id}}</td>
+                                        <td class="textLeft">{{item.BranchDisplayName}}</td>
+                                        <td class="textLeft">{{item.BranchRootUrl}}</td>
+                                        <td data-ng-click="vm.editBranche(item)">edit</td>
+                                        <td data-ng-click="vm.removeBranch(item)">remove</td>
+
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="8">
+                                            <pagination boundary-links="true"
+                                                        on-select-page="vm.pageChanged(page)"
+                                                        total-items="vm.branchesFilteredCount"
+                                                        items-per-page="vm.paging.pageSize"
+                                                        page="vm.paging.currentPage"
+                                                        max-size="vm.paging.maxPagesToShow"
+                                                        class="pagination-small"
+                                                        previous-text="Prev"
+                                                        next-text="Next"
+                                                        first-text="First"
+                                                        last-text="Last"></pagination>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+    </section>
+</section>

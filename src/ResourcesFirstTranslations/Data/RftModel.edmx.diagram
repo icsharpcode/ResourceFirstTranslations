@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f71ab09d3d494545803bb55cd9dfd585" Name="Diagram1">
+        <EntityTypeShape EntityType="RftModel.User" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RftModel.Branch" Width="1.5" PointX="3.375" PointY="1.125" />
+        <EntityTypeShape EntityType="RftModel.BranchResourceFile" Width="2.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RftModel.ResourceFile" Width="1.875" PointX="3.5" PointY="4.25" />
+        <EntityTypeShape EntityType="RftModel.ResourceString" Width="2.375" PointX="10.875" PointY="4.25" />
+        <EntityTypeShape EntityType="RftModel.Translation" Width="3" PointX="5.75" PointY="5.625" />
+        <AssociationConnector Association="RftModel.FK_BranchResourceFiles_Branches" />
+        <AssociationConnector Association="RftModel.FK_ResourceStrings_Branches" />
+        <AssociationConnector Association="RftModel.FK_Translations_Branches" />
+        <AssociationConnector Association="RftModel.FK_BranchResourceFiles_ResourceFiles" />
+        <AssociationConnector Association="RftModel.FK_ResourceStrings_ResourceFiles" />
+        <AssociationConnector Association="RftModel.FK_Translations_ResourceFiles" />
+        <EntityTypeShape EntityType="RftModel.TranslationsAllBranchesView" Width="2.25" PointX="9.25" PointY="7.625" />
+        <EntityTypeShape EntityType="RftModel.Language" Width="1.5" PointX="12.25" PointY="0.75" />
+        <EntityTypeShape EntityType="RftModel.TranslationsJoinedResourceStringsView" Width="2.875" PointX="11.75" PointY="7.625" />
+        <EntityTypeShape EntityType="RftModel.MissingTranslationsView" Width="2.125" PointX="0.625" PointY="5.5" />
+        <EntityTypeShape EntityType="RftModel.BranchResourceFilesView" Width="3.25" PointX="13.875" PointY="2.875" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,74 @@
+﻿<section id="languages-view" class="mainbar" data-ng-controller="languages as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <button class="btn btn-info btn-form-md" data-ng-click="vm.createNew()">
+                        <i class="fa fa fa-plus"></i>
+                        New
+                    </button>
+                    <div class="widget">
+                        <div data-cc-widget-header title="{{vm.title}}"></div>
+
+                        <div class="widget-content text-info">
+                            <table class="table table-striped table-condensed table-hover">
+                                <thead>
+
+                                    <tr>
+
+                                        <th class="Culture">
+                                            <a data-ng-click="vm.sort_by('Culture')" style="color: #555555;">
+                                                Language&nbsp;<i data-ng-class="vm.selectedCls('Culture')"></i>
+                                            </a>
+                                        </th>
+                                        <th class="Description">
+                                            <a data-ng-click="vm.sort_by('Description')" style="color: #555555;">
+                                                Description&nbsp;<i data-ng-class="vm.selectedCls('Description')"></i>
+                                            </a>
+                                        </th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    <tr ng-repeat="item in vm.items | orderBy:vm.sort.sortingOrder:vm.sort.reverse">
+                                        <td class="textLeft">{{item.Culture}}</td>
+                                        <td class="textLeft">{{item.Description}}</td>
+                                        <td data-ng-click="vm.removeLanguage(item)">remove</td>
+
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="8">
+                                            <pagination boundary-links="true"
+                                                        on-select-page="vm.pageChanged(page)"
+                                                        total-items="vm.languagesFilteredCount"
+                                                        items-per-page="vm.paging.pageSize"
+                                                        page="vm.paging.currentPage"
+                                                        max-size="vm.paging.maxPagesToShow"
+                                                        class="pagination-small"
+                                                        previous-text="Prev"
+                                                        next-text="Next"
+                                                        first-text="First"
+                                                        last-text="Last"></pagination>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+    </section>
+</section>

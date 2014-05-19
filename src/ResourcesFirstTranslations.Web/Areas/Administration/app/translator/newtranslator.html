@@ -1,0 +1,90 @@
+﻿<section id="newtranslator-view" class="mainbar" data-ng-controller="newtranslator as vm">
+    <section class="matter">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <form name="myForm" data-ng-submit="vm.Save()" novalidate>
+                        <a href="" class="btn btn-info btn-form-md" data-ng-click="vm.goBack()">
+                            <i class="fa fa-hand-o-left"></i>
+                            Back
+                        </a>
+                        <div class="widget">
+                            <div data-cc-widget-header title="{{ vm.title }}"></div>
+                            <div class="widget-content text-info">
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTopFirst" data-ng-class="{true: 'error'}[vm.submitted && myForm.FirstName.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">First name:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="text" id="FirstNameID" name="FirstName" data-ng-model="vm.item.FirstName" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.FirstName.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Firstname is required.</span></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop" data-ng-class="{true: 'error'}[vm.submitted && myForm.LastName.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Last name:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="text" id="LastNameID" name="LastName" data-ng-model="vm.item.LastName" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.LastName.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Lastname is required.</span></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop" data-ng-class="{true: 'error'}[vm.submitted && myForm.UserName.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">User name:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="text" id="UserNameID" name="UserName" data-ng-model="vm.item.UserName" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.UserName.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Username is required.</span></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop" data-ng-class="{true: 'error'}[vm.submitted && myForm.EmailAddress.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Email:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="text" id="EmailAddressID" name="EmailAddress" data-ng-model="vm.item.EmailAddress" ng-pattern="vm.emailPattern" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.EmailAddress.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Email is required.</span></span>
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.EmailAddress.$error.pattern"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Enter a valid email address.</span></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Active:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input type="checkbox" data-ng-model="vm.item.IsActive">
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop" data-ng-class="{true: 'error'}[vm.submitted && myForm.Cultures.$invalid]">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Languages:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input class="form-control input-sm" type="text" id="CulturesID" name="Cultures" data-ng-model="vm.item.Cultures" ng-pattern="vm.culturePattern" data-ng-required="vm.submitted" />
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.Cultures.$error.required"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Culture is required.</span></span>
+                                        <span class="z-decorator" data-ng-show="vm.submitted && myForm.Cultures.$error.pattern"><span title="Required" class="icon-asterisk-invalid z-required">*</span><span class="invalid"><i class="fa fa-warning-sign"></i>Enter format |culture|</span></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop">
+                                    <label class="col-sm-3 col-md-2 col-lg-2 control-label nopadding">Administrator:</label>
+                                    <div class="col-sm-9 col-md-10 col-lg-6 nopadding">
+                                        <input type="checkbox" data-ng-model="vm.item.IsAdmin">
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 paddingTop">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 nopadding">
+                                        <input class="btn btn-default buttonLarge" data-ng-click="vm.submitted=true" type="submit" value="Save and send password" />
+                                        <input class="btn btn-default buttonSmall" data-ng-click="vm.clearValues()" type="button" value="Cancel" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-foot">
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+              
+            </div>
+        </div>
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+    </section>
+</section>

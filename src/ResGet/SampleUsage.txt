@@ -1,0 +1,5 @@
+﻿resget --url "http://localhost:19890/Resources/" --branch 500 --overwrite true 
+
+
+
+resget --url "http://localhost:19890/Resources/" --branch 500 --language de 
