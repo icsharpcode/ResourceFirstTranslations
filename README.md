@@ -24,3 +24,25 @@ Please see the [wiki](https://github.com/icsharpcode/ResourceFirstTranslations/w
 Written by [Andreas Lillich](https://github.com/andreaslillich) (frontend) 
 and [Christoph Wille](https://github.com/christophwille) (backend). The specification
 was co-written by Daniel Grunwald, Siegfried Pammer and Christoph Wille.
+
+# Changelog
+
+## May 19th, go-live on Github
+
+* A first non-production test version of RFT
+
+## April 6th, 2014
+
+Andreas joins in to create the SPA frontend applications
+
+## Feb 25th, 2014
+
+Start coding as a proof of concept to see if this can be pulled off
+
+## SharpDevelop Developer Days 2013
+
+Daniel, Siegfried and Christoph sat down and created a specification
+
+## Years ago...
+
+We had been talking about replacing the existing application for ages.
