@@ -253,6 +253,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessDeniedRestrictedModeAttribute.cs" />
     <Compile Include="ApplicationInformation.cs" />
     <Compile Include="App_Start\AutoFacConfig.cs" />
     <Compile Include="App_Start\BreezeWebApiConfig.cs" />

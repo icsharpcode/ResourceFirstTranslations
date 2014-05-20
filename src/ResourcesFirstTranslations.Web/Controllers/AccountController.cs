@@ -78,6 +78,7 @@ namespace ResourcesFirstTranslations.Web.Controllers
         // POST: /Account/Manage
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AccessDeniedRestrictedMode]
         public async Task<ActionResult> Manage(ManageUserViewModel model)
         {
             ViewBag.HasLocalPassword = true;
