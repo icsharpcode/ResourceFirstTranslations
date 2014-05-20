@@ -105,6 +105,7 @@ namespace ResourcesFirstTranslations.Web.Controllers
         }
 
         [HttpPost]
+        [AccessDeniedRestrictedMode]
         public async Task<JsonResult> ChangeEmailAddress(string newEmailAddress)
         {
             try

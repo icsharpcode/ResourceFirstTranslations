@@ -71,6 +71,7 @@ namespace ResourcesFirstTranslations.Web.Areas.Administration.Controllers
         }
 
         [HttpPost]
+        [AccessDeniedRestrictedMode]
         public async Task<JsonResult> CreateNewLanguage(AddCultureRequest vm)
         {
             try
@@ -104,6 +105,7 @@ namespace ResourcesFirstTranslations.Web.Areas.Administration.Controllers
         }
 
         [HttpPost]
+        [AccessDeniedRestrictedMode]
         public async Task<JsonResult> CreateNewTranslator(TranslatorModel vm)
         {
             try
@@ -129,6 +131,7 @@ namespace ResourcesFirstTranslations.Web.Areas.Administration.Controllers
         }
 
         [HttpPost]
+        [AccessDeniedRestrictedMode]
         public async Task<JsonResult> EditTranslator(TranslatorModel vm)
         {
             try
@@ -272,6 +275,7 @@ namespace ResourcesFirstTranslations.Web.Areas.Administration.Controllers
         }
 
         [HttpPost]
+        [AccessDeniedRestrictedMode]
         public async Task<JsonResult> SendPasswordEmail(ResetPasswordModel vm)
         {
             try
