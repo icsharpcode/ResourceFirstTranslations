@@ -413,6 +413,7 @@
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <None Include="Properties\PublishProfiles\rftdemo.pubxml" />
     <None Include="Properties\PublishProfiles\tuxng-test.pubxml" />
     <Content Include="Scripts\angular-sanitize.js" />
     <Content Include="Scripts\angular-sanitize.min.js" />
