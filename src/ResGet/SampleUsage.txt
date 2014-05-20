@@ -1,5 +1,12 @@
-﻿resget --url "http://localhost:19890/Resources/" --branch 500 --overwrite true 
+﻿Note: this project uses https://github.com/Fody/Costura, thus you need only .exe and .exe.config
 
 
+Samples
 
-resget --url "http://localhost:19890/Resources/" --branch 500 --language de 
+Get all resource files for a branch
+
+	resget --url "http://localhost:19890/Resources/" --branch 500 --overwrite true 
+
+Get all resources files for a specific language in a branch
+
+	resget --url "http://localhost:19890/Resources/" --branch 500 --language de 
