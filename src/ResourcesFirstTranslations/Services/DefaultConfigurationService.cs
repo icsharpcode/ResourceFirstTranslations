@@ -76,14 +76,27 @@ namespace ResourcesFirstTranslations.Services
             }
         }
 
+        private bool ParseBooleanSetting(string settingName, bool defaultValue=false)
+        {
+            string setting = GetSetting(settingName);
+            bool bValue = defaultValue;
+            bool.TryParse(setting, out bValue);
+            return bValue;
+        }
+
         public bool FillEmptyTranslationsWithOriginalValues
         {
             get
             {
-                string setting = GetSetting("FillEmptyTranslationsWithOriginalValues");
-                bool fillEmpty = false;
-                bool.TryParse(setting, out fillEmpty);
-                return fillEmpty;
+                return ParseBooleanSetting("FillEmptyTranslationsWithOriginalValues");
+            }
+        }
+
+        public bool EnableMultiBranchTranslation
+        {
+            get
+            {
+                return ParseBooleanSetting("EnableMultiBranchTranslation");
             }
         }
     }

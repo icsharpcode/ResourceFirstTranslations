@@ -20,5 +20,6 @@ namespace ResourcesFirstTranslations.Services
         string SmtpPort { get; }
 
         bool FillEmptyTranslationsWithOriginalValues { get; }
+        bool EnableMultiBranchTranslation { get; }
     }
 }
