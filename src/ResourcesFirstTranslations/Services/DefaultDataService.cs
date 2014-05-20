@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.EntityClient;
 using System.Data.Entity.Core.Objects;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using LinqKit;
 using ResourcesFirstTranslations.Data;
 using ResourcesFirstTranslations.Models;
@@ -115,43 +119,73 @@ namespace ResourcesFirstTranslations.Services
 
         public async Task<bool> AddCultureAsync(string culture, string description)
         {
+            string providerConnectionString = "";
+            List<ResourceString> resourceStrings = null;
+
             using (var ctx = GetContext())
             {
                 // Get all original resources for all branches (no tracking, we make no changes)
-                var resourceStrings = await ctx.ResourceStrings.AsNoTracking().ToListAsync().ConfigureAwait(false);
+                resourceStrings = await ctx.ResourceStrings.AsNoTracking()
+                    .ToListAsync()
+                    .ConfigureAwait(false);
 
-                var updateTime = DateTime.UtcNow;
-                var updatedBy = "system/add language";
-
-                // Create all-new translated strings
-                foreach (var s in resourceStrings)
-                {
-                    var t = new Translation()
-                    {
-                        FK_BranchId = s.FK_BranchId,
-                        FK_ResourceFileId = s.FK_ResourceFileId,
-                        ResourceIdentifier = s.ResourceIdentifier,
-                        Culture = culture,
-                        TranslatedValue = null,
-                        OriginalResxValueChangedSinceTranslation = true,
-                        OriginalResxValueAtTranslation = s.ResxValue,
-                        LastUpdated = updateTime,
-                        LastUpdatedBy = updatedBy
-                    };
-
-                    ctx.Translations.Add(t);
-                }
-
-                ctx.Languages.Add(new Language()
-                {
-                    Culture = culture,
-                    Description = description
-                });
-
-                await ctx.SaveChangesAsync().ConfigureAwait(false);
+                // And get the connection string
+                providerConnectionString = ctx.GetProviderConnectionString();
             }
 
-            return true;
+            DateTime updateTime = DateTime.UtcNow;
+            const string updatedBy = "system/add language";
+
+            var translationProjection = resourceStrings.Select(s => new Translation()
+            {
+                FK_BranchId = s.FK_BranchId,
+                FK_ResourceFileId = s.FK_ResourceFileId,
+                ResourceIdentifier = s.ResourceIdentifier,
+                Culture = culture,
+                TranslatedValue = null,
+                OriginalResxValueChangedSinceTranslation = true,
+                OriginalResxValueAtTranslation = s.ResxValue,
+                LastUpdated = updateTime,
+                LastUpdatedBy = updatedBy
+            });
+
+            using (var conn = new SqlConnection(providerConnectionString))
+            {
+                await conn.OpenAsync();
+
+                using (var sqlTxn = conn.BeginTransaction())
+                {
+                    var cmd =
+                        new SqlCommand("INSERT INTO Languages(Culture,Description) VALUES(@param1,@param2)", conn, sqlTxn);
+
+                    cmd.Parameters.Add(new SqlParameter("@param1", culture));
+                    cmd.Parameters.Add(new SqlParameter("@param2", description));
+
+                    try
+                    {
+                        await cmd.ExecuteNonQueryAsync();
+
+                        var bcp = new Overby.Data.BulkInserter<Translation>(conn, "Translations",
+                            5000, SqlBulkCopyOptions.Default, sqlTxn);
+
+                        bcp.Insert(translationProjection);
+
+                        sqlTxn.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.TraceError(ex.ToString());
+                        sqlTxn.Rollback();
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+
+            return false;
         }
 
         public async Task<List<Language>> GetLanguagesAsync()
@@ -428,7 +462,7 @@ namespace ResourcesFirstTranslations.Services
                 foreach (string c in cultures)
                 {
                     string tempClosure = "|" + c + "|";
-                    predicate = predicate.Or(u => u.Cultures.Contains (tempClosure));
+                    predicate = predicate.Or(u => u.Cultures.Contains(tempClosure));
                 }
 
                 IQueryable<User> query = ctx.Users.AsExpandable()

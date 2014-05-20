@@ -132,6 +132,9 @@
   <data name="LanguageCreatedSuccessfully" xml:space="preserve">
     <value>Language was created successfully</value>
   </data>
+  <data name="LanguageCreationFailed" xml:space="preserve">
+    <value>Creating the language failed (duplicate language, database error)</value>
+  </data>
   <data name="TranslationNotFound" xml:space="preserve">
     <value>Translation not found</value>
   </data>

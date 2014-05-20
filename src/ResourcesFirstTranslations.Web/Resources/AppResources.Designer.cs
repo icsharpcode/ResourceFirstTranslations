@@ -106,6 +106,15 @@ namespace ResourcesFirstTranslations.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creating the language failed (duplicate language, database error).
+        /// </summary>
+        public static string LanguageCreationFailed {
+            get {
+                return ResourceManager.GetString("LanguageCreationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Translation not found.
         /// </summary>
         public static string TranslationNotFound {

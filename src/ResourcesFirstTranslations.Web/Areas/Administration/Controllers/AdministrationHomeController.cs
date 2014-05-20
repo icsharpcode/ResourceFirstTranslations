@@ -76,9 +76,14 @@ namespace ResourcesFirstTranslations.Web.Areas.Administration.Controllers
             try
             {
                 bool result = await _dataService.AddCultureAsync(vm.Culture, vm.Description);
-                _cacheService.Invalidate(CacheKeys.Languages);
 
-                return Json(new GenericResponse(true, AppResources.LanguageCreatedSuccessfully));
+                if (result)
+                {
+                    _cacheService.Invalidate(CacheKeys.Languages);
+                    return Json(new GenericResponse(true, AppResources.LanguageCreatedSuccessfully));
+                }
+
+                return Json(new GenericResponse(false, AppResources.LanguageCreationFailed));
             }
             catch (Exception ex)
             {
