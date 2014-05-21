@@ -284,6 +284,7 @@
     <Compile Include="Models\GenericResponse.cs" />
     <Compile Include="Models\MultiBranchTranslationEditModel.cs" />
     <Compile Include="Models\TranslationEditModel.cs" />
+    <Compile Include="Models\TranslationFilterDefinition.cs" />
     <Compile Include="Models\TranslationResponse.cs" />
     <Compile Include="Models\TranslatorDashboardInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

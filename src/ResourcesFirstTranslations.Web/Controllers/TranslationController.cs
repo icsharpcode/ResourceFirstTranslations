@@ -21,10 +21,12 @@ namespace ResourcesFirstTranslations.Web.Controllers
     public class TranslationController : Controller
     {
         private readonly ITranslationService _translationService;
+        private readonly IConfigurationService _configurationService;
 
-        public TranslationController(ITranslationService translationService)
+        public TranslationController(ITranslationService translationService, IConfigurationService configurationService)
         {
             _translationService = translationService;
+            _configurationService = configurationService;
         }
 
         public ActionResult TopNav()
@@ -62,11 +64,11 @@ namespace ResourcesFirstTranslations.Web.Controllers
         public async Task<JsonResult> GetDashboardInfo()
         {
             var p = ClaimsPrincipal.Current;
-            var cultures = p.GetCultures();
 
-            var languages = await _translationService.GetCachedLanguagesAsync(cultures);
+            var languages = await GetLanguagesAsync();
             var branches = await _translationService.GetCachedBranchesAsync();
             var resourceFiles = await _translationService.GetCachedResourceFilesAsync();
+
             var dashboardinfo = new TranslatorDashboardInfo()
             {
                 Name = p.Identity.Name,
@@ -75,6 +77,29 @@ namespace ResourcesFirstTranslations.Web.Controllers
                 ResourceFiles = resourceFiles,
                 Branches = branches
             };
+            return Json(dashboardinfo, JsonRequestBehavior.AllowGet);
+        }
+
+        private async Task<List<Language>> GetLanguagesAsync()
+        {
+            var cultures = ClaimsPrincipal.Current.GetCultures();
+            var languages = await _translationService.GetCachedLanguagesAsync(cultures);
+            return languages;
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetTranslationFilterDefinition()
+        {
+            var languages = await GetLanguagesAsync();
+            var branches = await _translationService.GetCachedBranchesAsync();
+
+            var dashboardinfo = new TranslationFilterDefinition()
+            {
+                Languages = languages,
+                Branches = branches,
+                EnableMultiBranchTranslation = _configurationService.EnableMultiBranchTranslation
+            };
+
             return Json(dashboardinfo, JsonRequestBehavior.AllowGet);
         }
 
