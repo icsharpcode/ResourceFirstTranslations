@@ -31,11 +31,6 @@ namespace ResourcesFirstTranslations.Web.Controllers
         {
             return _contextProvider.Context.TranslationsJoinedResourceStringsViews;
         }
-
-        [HttpGet]
-        public IQueryable<Branch> GetBranches()
-        {
-            return _contextProvider.Context.Branches;
-        }
+       
     }
 }

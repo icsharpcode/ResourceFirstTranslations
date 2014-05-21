@@ -17,8 +17,7 @@
             getDashboardInfo: getDashboardInfo,
             changeEmail: changeEmail,
             queryPerBranch: queryPerBranch,
-            getLanguages: getLanguages,
-            getBranches: getBranches,
+            getTranslationFilterDefinition: getTranslationFilterDefinition,
             getAdditionalTranslation: getAdditionalTranslation,
             editTranslation: editTranslation,
             editTranslationMultiBranch: editTranslationMultiBranch
@@ -126,20 +125,13 @@
             return manager.executeQuery(query);
         }
 
-        function getLanguages() {
-            return $.post("Translation/SelectableUserLanguages");
-           
-        }
+        function getTranslationFilterDefinition() {
+            return $.post("Translation/GetTranslationFilterDefinition");
 
-        function getBranches() {
-            var query = breeze.EntityQuery
-                .from("GetBranches");
-
-            return manager.executeQuery(query);
         }
 
         function getDashboardInfo() {
-            return $.get("Translation/GetDashboardInfo");
+            return $.post("Translation/GetDashboardInfo");
         }
         function changeEmail(newEmailAddress) {
             return $.post("Translation/ChangeEmailAddress", { newEmailAddress: newEmailAddress });

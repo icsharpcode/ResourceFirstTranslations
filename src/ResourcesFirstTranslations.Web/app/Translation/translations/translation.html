@@ -207,8 +207,8 @@
                                     </div>
 
                                     <div class="col-sm-5 col-md-5 col-lg-5 nopadding">
-                                        <input type="checkbox" data-ng-model="vm.applyToAllBranches" />
-                                        <span style="display: inline-block">Apply to all branches</span>
+                                        <input data-ng-show="vm.enableMultiBranchTranslation" type="checkbox" data-ng-model="vm.applyToAllBranches" />
+                                        <span data-ng-show="vm.enableMultiBranchTranslation" style="display: inline-block">Apply to all branches</span>
                                     </div>
                                     <div class="col-sm-2 col-md-2 col-lg-2 nopadding">
                                         <input class="btn btn-default buttonXSmall" data-ng-click="vm.closeEdit()" type="button" value="Close" />
@@ -222,7 +222,7 @@
                     </form>
                 </div>
                 <div class="col-md-3">
-                    <div class="widget" data-ng-show="vm.showEditWidget">
+                    <div class="widget" data-ng-show="vm.showEditWidget && vm.enableMultiBranchTranslation">
                         <div data-cc-widget-header title="{{ vm.editOtherBranches }}" allow-collapse="true"></div>
                         <div class="widget-content text-center text-info floatLeft">
                             <div class="col-sm-12 col-md-12 col-lg-12">

@@ -41,26 +41,6 @@ namespace ResourcesFirstTranslations.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<List<Branch>> GetBranches()
-        {
-            return await _translationService.GetCachedBranchesAsync();
-        }
-
-        [HttpPost]
-        public async Task<List<ResourceFile>> GetResourceFiles()
-        {
-            return await _translationService.GetCachedResourceFilesAsync();
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> SelectableUserLanguages()
-        {
-            var cultures = ClaimsPrincipal.Current.GetCultures();
-            var languages = await _translationService.GetCachedLanguagesAsync(cultures);
-            return Json(languages);
-        }
-
-        [HttpGet]
         public async Task<JsonResult> GetDashboardInfo()
         {
             var p = ClaimsPrincipal.Current;
@@ -77,7 +57,7 @@ namespace ResourcesFirstTranslations.Web.Controllers
                 ResourceFiles = resourceFiles,
                 Branches = branches
             };
-            return Json(dashboardinfo, JsonRequestBehavior.AllowGet);
+            return Json(dashboardinfo);
         }
 
         private async Task<List<Language>> GetLanguagesAsync()
@@ -87,20 +67,20 @@ namespace ResourcesFirstTranslations.Web.Controllers
             return languages;
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<JsonResult> GetTranslationFilterDefinition()
         {
             var languages = await GetLanguagesAsync();
             var branches = await _translationService.GetCachedBranchesAsync();
 
-            var dashboardinfo = new TranslationFilterDefinition()
+            var filterdef = new TranslationFilterDefinition()
             {
                 Languages = languages,
                 Branches = branches,
                 EnableMultiBranchTranslation = _configurationService.EnableMultiBranchTranslation
             };
 
-            return Json(dashboardinfo, JsonRequestBehavior.AllowGet);
+            return Json(filterdef);
         }
 
         [HttpPost]

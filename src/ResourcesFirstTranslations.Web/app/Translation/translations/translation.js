@@ -11,6 +11,7 @@
         vm.emptyTranslations = false;
         vm.modifiedTranslations = false;
         vm.resourceName = false;
+        vm.enableMultiBranchTranslation = true;
         vm.resourceFileName = "";
         vm.resourceValue = false;
         vm.resourceFileValue = "";
@@ -178,7 +179,7 @@
         }
 
         function activate() {
-            var promises = [getLanguages(), getBranches()];
+            var promises = [getTranslationFilterDefinition()];
             common.activateController(promises, controllerId)
                 .then(function () {
                     toggleSpinner(true); loadQuery();
@@ -194,21 +195,22 @@
             e && (vm.paging.currentPage = e, toggleSpinner(true) , loadQuery());
         }
 
-        function getLanguages() {
-            return datacontext.getLanguages().done(function (data) {
-                return vm.Languages = data, vm.currentLanguage = vm.Languages[0];
-            });
-        }
-
-        function getBranches() {
-            return datacontext.getBranches().then(function (data) {
-                return vm.Branches = data.results, vm.currentBranch = vm.Branches[0];
+        function getTranslationFilterDefinition() {
+            return datacontext.getTranslationFilterDefinition().done(function (data) {
+                return vm.Languages = data.Languages, vm.Branches = data.Branches, vm.enableMultiBranchTranslation = data.EnableMultiBranchTranslation, vm.currentLanguage = vm.Languages[0], vm.currentBranch = vm.Branches[0];
             });
         }
 
         function loadQuery() {
             common.activateController([getQueryResult()], controllerId)
-                .then(function () { fillAdditionalTranslations(); });
+                .then(function () {
+                    if (vm.enableMultiBranchTranslation) {
+                        fillAdditionalTranslations();
+                    } else {
+                        vm.applyToAllBranches = false;
+                        toggleSpinner(false);
+                    }
+            });
         }
 
         function fillAdditionalTranslations() {
@@ -272,7 +274,12 @@
         function copyItem(destination, source) {
             vm.editItem = $.extend({}, source);
             vm.originalItem = source;
-            vm.applyToAllBranches = true;
+            if (vm.enableMultiBranchTranslation) {
+                vm.applyToAllBranches = true;
+            } else {
+                vm.applyToAllBranches = false;
+            }
+           
             vm.originalItem.Translations.forEach(function (e) {
                 if (e.TranslatedValue != vm.originalItem.TranslatedValue) {
                     vm.applyToAllBranches = false;

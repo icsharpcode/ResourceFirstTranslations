@@ -17,6 +17,11 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ResourceFirstTranslations.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResGet", "ResGet\ResGet.csproj", "{BE412AC3-BC41-42D5-B9D6-D80F01F128EF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8EC9DF20-09D9-4BD1-B9D1-56E00CE0C019}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
