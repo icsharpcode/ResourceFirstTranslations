@@ -46,6 +46,22 @@ namespace ResourcesFirstTranslations.Services
             }
         }
 
+        public async Task<User> FindByNameAsync(string email)
+        {
+            using (var ctx = GetContext())
+            {
+                var user = await ctx.Users
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.EmailAddress == email && u.IsActive)
+                    .ConfigureAwait(false);
+
+                if (null == user)
+                    return null;
+
+                return user;
+            } 
+        }
+
         public async Task<bool> ChangeUserPasswordAsync(int userId, string oldPassword, string newPassword)
         {
             using (var ctx = GetContext())

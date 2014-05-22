@@ -483,6 +483,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Translation\TopNav.cshtml" />
     <Content Include="Scripts\toastr.min.js.map" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

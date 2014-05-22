@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ResourcesFirstTranslations.Web
 {
@@ -49,6 +50,14 @@ namespace ResourcesFirstTranslations.Web
 
                 return _appVersion;
             }
+        }
+
+        public string GetSiteBaseUrl(Controller controller)
+        {
+            return string.Format("{0}://{1}{2}", 
+                controller.Request.Url.Scheme, 
+                controller.Request.Url.Authority, 
+                controller.Url.Content("~"));
         }
     }
 }

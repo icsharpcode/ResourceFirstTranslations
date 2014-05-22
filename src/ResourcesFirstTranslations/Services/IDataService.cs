@@ -11,7 +11,9 @@ namespace ResourcesFirstTranslations.Services
     public interface IDataService
     {
         Task<User> FindUserAsync(string name, string password);
+        Task<User> FindByNameAsync(string email);
         Task<bool> ChangeUserPasswordAsync(int userId, string oldPassword, string newPassword);
+
         Task<List<Branch>> GetBranchesAsync();
         Task<List<ResourceFile>> GetResourceFilesAsync();
         Task<List<BranchResourceFile>> GetBranchResourceFilesAsync();

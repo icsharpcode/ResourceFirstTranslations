@@ -99,11 +99,6 @@ namespace ResourcesFirstTranslations.Web.Areas.Administration.Controllers
             return Json(new GenericResponse(false, "This feature is not supported"));
         }
 
-        private string GetSiteBaseUrl()
-        {
-            return string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
-        }
-
         [HttpPost]
         [AccessDeniedRestrictedMode]
         public async Task<JsonResult> CreateNewTranslator(TranslatorModel vm)
@@ -119,7 +114,7 @@ namespace ResourcesFirstTranslations.Web.Areas.Administration.Controllers
                 var user = vm.ToNewUser();
 
                 await _translationService.CreateUserAsync(user,
-                    MailTemplates.NewUserSubjectFormat, MailTemplates.NewUserBodyFormat, GetSiteBaseUrl());
+                    MailTemplates.NewUserSubjectFormat, MailTemplates.NewUserBodyFormat, ApplicationInformation.Current.GetSiteBaseUrl(this));
             }
             catch (Exception ex)
             {
@@ -287,7 +282,9 @@ namespace ResourcesFirstTranslations.Web.Areas.Administration.Controllers
                 };
 
                 await _translationService.ResetUserPasswordAsync(user,
-                    MailTemplates.PasswordResetSubjectFormat, MailTemplates.PasswordResetBodyFormat, GetSiteBaseUrl());
+                    MailTemplates.PasswordResetSubjectFormat, 
+                    MailTemplates.PasswordResetBodyFormat, 
+                    ApplicationInformation.Current.GetSiteBaseUrl(this));
             }
             catch (Exception ex)
             {

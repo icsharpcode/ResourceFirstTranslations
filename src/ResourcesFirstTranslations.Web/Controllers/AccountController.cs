@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using ResourcesFirstTranslations.Common;
 using ResourcesFirstTranslations.Services;
 using ResourcesFirstTranslations.Web.Models;
+using ResourcesFirstTranslations.Web.Resources;
 
 namespace ResourcesFirstTranslations.Web.Controllers
 {
@@ -18,10 +19,12 @@ namespace ResourcesFirstTranslations.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IDataService _dataService;
+        private readonly ITranslationService _translationService;
 
-        public AccountController(IDataService dataService)
+        public AccountController(IDataService dataService, ITranslationService translationService)
         {
             _dataService = dataService;
+            _translationService = translationService;
         }
 
         //
@@ -112,6 +115,47 @@ namespace ResourcesFirstTranslations.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // GET: /Account/ForgotPassword
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        [AccessDeniedRestrictedMode]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _dataService.FindByNameAsync(model.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "The user does not exist.");
+                    return View();
+                }
+
+                await _translationService.ResetUserPasswordAsync(user,
+                    MailTemplates.PasswordResetSubjectFormat, 
+                    MailTemplates.PasswordResetBodyFormat,
+                    ApplicationInformation.Current.GetSiteBaseUrl(this));
+
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        // GET: /Account/ForgotPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
 
         #region Helpers
         // Used for XSRF protection when adding external logins
