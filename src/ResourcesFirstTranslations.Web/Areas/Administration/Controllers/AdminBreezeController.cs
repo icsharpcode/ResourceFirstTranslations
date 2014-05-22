@@ -24,9 +24,21 @@ namespace ResourcesFirstTranslations.Web.Areas.Administration.Controllers
         }
 
         [HttpGet]
-        public IQueryable<User> Translators()
+        [BreezeQueryable]
+        public IQueryable<object> Translators()
         {
-            return _contextProvider.Context.Users;
+            // Why? We don't want to send password hash and password salt across the wire
+            return _contextProvider.Context.Users.Select(u => new
+            {
+                u.Id,
+                u.UserName,
+                u.EmailAddress,
+                u.FirstName,
+                u.LastName,
+                u.IsActive,
+                u.IsAdmin,
+                u.Cultures
+            });
         }
 
         [HttpGet]
