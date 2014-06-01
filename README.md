@@ -13,6 +13,12 @@ of the SharpDevelop project. It has the following goals:
 * Sync: Automatically get the latest resource file checkins to the translators, and
     the finished translations to the developers or the build servers.
 
+__Live demo__: http://rftdemo.azurewebsites.net/ 
+Translator credentials: _translator_, _translator_  
+Administrator credentials: _admin_, _administrator_    	
+
+Certain operations are disallowed in the demo (eg creating new users, resetting a password)
+	
 # Documentation
 
 Please see the [wiki](https://github.com/icsharpcode/ResourceFirstTranslations/wiki)
