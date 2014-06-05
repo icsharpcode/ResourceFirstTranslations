@@ -123,7 +123,7 @@ namespace ResourcesFirstTranslations.Sync
                 // Get all already in-db string resources in one call
                 var dbStringResources = ctx.ResourceStrings
                     .Where(rs => rs.FK_BranchId == branchId && rs.FK_ResourceFileId == resourceFileId)
-                    .ToList();
+                    .ToDictionary(rs => rs.ResourceIdentifier);
 
                 Trace.TraceInformation("# of existing db string resources: {0}", dbStringResources.Count);
                 Trace.TraceInformation("# of resx string resources to process: {0}", stringResources.Count);
@@ -131,9 +131,8 @@ namespace ResourcesFirstTranslations.Sync
 
                 foreach (var res in stringResources)
                 {
-                    var dbRes = dbStringResources.FirstOrDefault(s => s.ResourceIdentifier == res.Name);
-
-                    if (null == dbRes)
+                    ResourceString dbRes;
+                    if (!dbStringResources.TryGetValue(res.Name, out dbRes))
                     {
                         // newly add string resource that is being processed
                         dbRes = new ResourceString()
@@ -170,8 +169,8 @@ namespace ResourcesFirstTranslations.Sync
                 }
 
                 // Delete string resources that no longer exist
-                var resourceIdentifiers = stringResources.Select(s => s.Name).ToList();
-                var toRemoveFromDb = dbStringResources
+                var resourceIdentifiers = new HashSet<string>(stringResources.Select(s => s.Name));
+                var toRemoveFromDb = dbStringResources.Values
                     .Where(s => !resourceIdentifiers.Contains(s.ResourceIdentifier))
                     .ToList();
 
