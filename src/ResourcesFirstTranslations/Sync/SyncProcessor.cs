@@ -152,13 +152,13 @@ namespace ResourcesFirstTranslations.Sync
                     }
                     else
                     {
-                        if (0 != String.Compare(dbRes.ResxComment, res.Comment, StringComparison.InvariantCulture))
+                        if (dbRes.ResxComment != res.Comment)
                         {
                             dbRes.ResxComment = res.Comment;
                             dbRes.LastUpdatedFromRepository = DateTime.UtcNow;
                         }
 
-                        if (0 != String.Compare(dbRes.ResxValue, res.Value, StringComparison.InvariantCulture))
+                        if (dbRes.ResxValue != res.Value)
                         {
                             dbRes.ResxValue = res.Value;
                             dbRes.LastUpdatedFromRepository = DateTime.UtcNow;  // yes, potentially set twice w above comment section
