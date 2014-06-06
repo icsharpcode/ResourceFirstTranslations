@@ -225,14 +225,14 @@ namespace ResourcesFirstTranslations.Sync
                     ctx.Translations.Add(currentTranslation);
                 }
 
-              var mergeFromTranslation = ctx.Translations
-                        .Where(t => t.ResourceIdentifier == resourceIdentifier &&
-                                t.OriginalResxValueAtTranslation == resxValue &&    // NOTE: this is SQL Server comparing here!!!
-                                t.Culture == culture)
-                        .OrderByDescending(t => t.LastUpdated)
-                        .FirstOrDefault();
-              // Note: mergeFromTranslation may be equal to currentTranslation when reviving a translation
-                
+                var mergeFromTranslation = ctx.Translations
+                          .Where(t => t.ResourceIdentifier == resourceIdentifier &&
+                                  t.OriginalResxValueAtTranslation == resxValue &&    // NOTE: this is SQL Server comparing here!!!
+                                  t.Culture == culture)
+                          .OrderByDescending(t => t.LastUpdated)
+                          .FirstOrDefault();
+                // Note: mergeFromTranslation may be equal to currentTranslation when reviving a translation
+
                 if (null == mergeFromTranslation)
                 {
                     if (-1 == excludeTranslationId)
