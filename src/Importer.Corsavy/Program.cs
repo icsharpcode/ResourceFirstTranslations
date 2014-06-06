@@ -34,8 +34,6 @@ namespace Importer.Corsavy
             "urdu", "af", "id", "fa", "th", "vi", "be", "hr", "he", "ar"
         }; 
 
-        // TODO: all branches or only 5.x?
-
         static void Main(string[] args)
         {
             // Note: database must be entirely empty before running this!

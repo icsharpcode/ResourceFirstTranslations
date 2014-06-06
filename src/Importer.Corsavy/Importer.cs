@@ -70,11 +70,17 @@ namespace Importer.Corsavy
 
                 ctx.Branches.AddRange(new List<Branch>
                 {
-                    new Branch()
+                    new Branch()  // our most current branch
                     {
                         Id = IdConstants.Branch5,
                         BranchDisplayName = "5.x",
                         BranchRootUrl = "https://github.com/icsharpcode/SharpDevelop/tree/master/"
+                    },
+                    new Branch()  // our legacy branch
+                    {
+                        Id = IdConstants.Branch4, 
+                        BranchDisplayName = "4.x",
+                        BranchRootUrl = "https://github.com/icsharpcode/SharpDevelop/tree/4.x"
                     },
                 });
 
@@ -88,6 +94,12 @@ namespace Importer.Corsavy
                         FK_BranchId = IdConstants.Branch5,
                         FK_ResourceFileId = IdConstants.ResourceStringResources,
                         SyncRawPathAbsolute = "https://github.com/icsharpcode/SharpDevelop/raw/master/data/resources/StringResources.resx"
+                    },
+                    new BranchResourceFile()
+                    {
+                        FK_BranchId = IdConstants.Branch4,
+                        FK_ResourceFileId = IdConstants.ResourceStringResources,
+                        SyncRawPathAbsolute = "https://github.com/icsharpcode/SharpDevelop/raw/4.x/data/resources/StringResources.resx"
                     },
                 });
 
@@ -140,18 +152,18 @@ namespace Importer.Corsavy
                                 string translatedValue = OleDbToString(reader["lang-" + isoCode]);
                                 bool translationIsDirty = IsDirtyOleDbToBool(reader["dirty-lang-" + isoCode]);
 
-                                translations.Add(new Translation()
+                                translations.AddRange(IdConstants.BranchIds.Select(branchId => new Translation()
                                 {
-                                    FK_BranchId = IdConstants.Branch5,
-                                    FK_ResourceFileId = IdConstants.ResourceStringResources,
-                                    ResourceIdentifier = resourceName,
-                                    Culture = isoCode,
-                                    TranslatedValue = translatedValue,
-                                    OriginalResxValueChangedSinceTranslation = translationIsDirty,
-                                    LastUpdated = dt,
-                                    LastUpdatedBy = "import",
+                                    FK_BranchId = branchId, 
+                                    FK_ResourceFileId = IdConstants.ResourceStringResources, 
+                                    ResourceIdentifier = resourceName, 
+                                    Culture = isoCode, 
+                                    TranslatedValue = translatedValue, 
+                                    OriginalResxValueChangedSinceTranslation = translationIsDirty, 
+                                    LastUpdated = dt, 
+                                    LastUpdatedBy = "import", 
                                     OriginalResxValueAtTranslation = originalValue
-                                });
+                                }));
                             }
                         }
                     }
