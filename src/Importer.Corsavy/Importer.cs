@@ -134,15 +134,15 @@ namespace Importer.Corsavy
                         DateTime originalLastModified = OleDbPrimaryLastModifiedToSqlDateTime(reader["PrimaryLastModified"]);
                         string comment = OleDbToString(reader["PrimaryPurpose"]);
 
-                        resources.Add(new ResourceString()
+                        resources.AddRange(IdConstants.BranchIds.Select(branchId => new ResourceString()
                         {
-                            FK_BranchId = IdConstants.Branch5,
+                            FK_BranchId = branchId,
                             FK_ResourceFileId = IdConstants.ResourceStringResources,
                             ResourceIdentifier = resourceName,
                             ResxValue = originalValue,
                             ResxComment = comment,
                             LastUpdatedFromRepository = originalLastModified
-                        });
+                        }));
 
                         for (int i = 0; i < oldIsoCodesCount; i++)
                         {
