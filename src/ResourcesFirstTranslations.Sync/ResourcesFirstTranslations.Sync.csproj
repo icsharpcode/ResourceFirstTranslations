@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ResourcesFirstTranslations.SyncJob</RootNamespace>
-    <AssemblyName>ResourcesFirstTranslations.SyncJob</AssemblyName>
+    <AssemblyName>rftsync</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
