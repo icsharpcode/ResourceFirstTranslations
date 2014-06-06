@@ -177,8 +177,6 @@
     <Compile Include="Services\SendGridMailService.cs" />
     <Compile Include="Services\SmtpMailService.cs" />
     <Compile Include="Services\Stubs\DevStubMailService.cs" />
-    <Compile Include="Sync\ISyncContextWrapper.cs" />
-    <Compile Include="Sync\SyncContextWrapper.cs" />
     <Compile Include="Sync\SyncProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
