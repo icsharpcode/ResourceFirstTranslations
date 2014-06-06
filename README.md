@@ -14,6 +14,7 @@ of the SharpDevelop project. It has the following goals:
     the finished translations to the developers or the build servers.
 
 __Live demo__: http://rftdemo.azurewebsites.net/ 
+
 Translator credentials: _translator_, _translator_  
 Administrator credentials: _admin_, _administrator_    	
 
