@@ -123,7 +123,7 @@ namespace ResourcesFirstTranslations.Sync
                 // Get all already in-db string resources in one call
                 var dbStringResources = ctx.ResourceStrings
                     .Where(rs => rs.FK_BranchId == branchId && rs.FK_ResourceFileId == resourceFileId)
-                    .ToList();
+                    .ToDictionary(rs => rs.ResourceIdentifier);
 
                 Trace.TraceInformation("# of existing db string resources: {0}", dbStringResources.Count);
                 Trace.TraceInformation("# of resx string resources to process: {0}", stringResources.Count);
@@ -131,9 +131,8 @@ namespace ResourcesFirstTranslations.Sync
 
                 foreach (var res in stringResources)
                 {
-                    var dbRes = dbStringResources.FirstOrDefault(s => s.ResourceIdentifier == res.Name);
-
-                    if (null == dbRes)
+                    ResourceString dbRes;
+                    if (!dbStringResources.TryGetValue(res.Name, out dbRes))
                     {
                         // newly add string resource that is being processed
                         dbRes = new ResourceString()
@@ -152,13 +151,13 @@ namespace ResourcesFirstTranslations.Sync
                     }
                     else
                     {
-                        if (0 != String.Compare(dbRes.ResxComment, res.Comment, StringComparison.InvariantCulture))
+                        if (dbRes.ResxComment != res.Comment)
                         {
                             dbRes.ResxComment = res.Comment;
                             dbRes.LastUpdatedFromRepository = DateTime.UtcNow;
                         }
 
-                        if (0 != String.Compare(dbRes.ResxValue, res.Value, StringComparison.InvariantCulture))
+                        if (dbRes.ResxValue != res.Value)
                         {
                             dbRes.ResxValue = res.Value;
                             dbRes.LastUpdatedFromRepository = DateTime.UtcNow;  // yes, potentially set twice w above comment section
@@ -170,8 +169,8 @@ namespace ResourcesFirstTranslations.Sync
                 }
 
                 // Delete string resources that no longer exist
-                var resourceIdentifiers = stringResources.Select(s => s.Name).ToList();
-                var toRemoveFromDb = dbStringResources
+                var resourceIdentifiers = new HashSet<string>(stringResources.Select(s => s.Name));
+                var toRemoveFromDb = dbStringResources.Values
                     .Where(s => !resourceIdentifiers.Contains(s.ResourceIdentifier))
                     .ToList();
 
@@ -226,39 +225,28 @@ namespace ResourcesFirstTranslations.Sync
                     ctx.Translations.Add(currentTranslation);
                 }
 
-                var currentTranslationDifferentBranch = ctx.Translations
-                        .Where(t => t.FK_ResourceFileId == resourceFileId &&
-                                t.ResourceIdentifier == resourceIdentifier &&
+              var mergeFromTranslation = ctx.Translations
+                        .Where(t => t.ResourceIdentifier == resourceIdentifier &&
                                 t.OriginalResxValueAtTranslation == resxValue &&    // NOTE: this is SQL Server comparing here!!!
-                                t.Culture == culture &&
-                                t.FK_BranchId != branchId &&
-                                t.Id != excludeTranslationId &&                     // Never search for myself
-                                !t.OriginalResxValueChangedSinceTranslation)
+                                t.Culture == culture)
                         .OrderByDescending(t => t.LastUpdated)
                         .FirstOrDefault();
-
-                if (null == currentTranslationDifferentBranch)
+              // Note: mergeFromTranslation may be equal to currentTranslation when reviving a translation
+                
+                if (null == mergeFromTranslation)
                 {
                     if (-1 == excludeTranslationId)
                     {
-                        currentTranslation.OriginalResxValueChangedSinceTranslation = true;
                         currentTranslation.TranslatedValue = null;
                     }
-                    else
-                    {
-                        // don't touch the values of the existing translation *except* changed since
-                        if (0 != String.Compare(currentTranslation.OriginalResxValueAtTranslation, resxValue, new CultureInfo(culture),CompareOptions.None))
-                        {
-                            currentTranslation.OriginalResxValueChangedSinceTranslation = true;
-                        }
-                    }
+                    currentTranslation.OriginalResxValueChangedSinceTranslation = true;
                 }
                 else
                 {
                     currentTranslation.OriginalResxValueChangedSinceTranslation = false;
-                    currentTranslation.TranslatedValue = currentTranslationDifferentBranch.TranslatedValue;
-                    currentTranslation.LastUpdated = currentTranslationDifferentBranch.LastUpdated;
-                    currentTranslation.LastUpdatedBy = currentTranslationDifferentBranch.LastUpdatedBy;
+                    currentTranslation.TranslatedValue = mergeFromTranslation.TranslatedValue;
+                    currentTranslation.LastUpdated = mergeFromTranslation.LastUpdated;
+                    currentTranslation.LastUpdatedBy = mergeFromTranslation.LastUpdatedBy;
                 }
             }
         }
