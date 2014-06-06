@@ -9,13 +9,13 @@ namespace ResourcesFirstTranslations.Services.Stubs
 {
     public class DevStubMailService : IMailService
     {
-        public async Task<bool> SendMailAsync(MailMessage mm, bool suppressExceptions = true)
+        public Task<bool> SendMailAsync(MailMessage mm, bool suppressExceptions = true)
         {
             Debug.WriteLine("--- DevStub sending email ---");
             Debug.WriteLine(mm.Subject);
             Debug.WriteLine(mm.Body);
 
-            return true;
+            return Task.FromResult(true);
         }
     }
 }
