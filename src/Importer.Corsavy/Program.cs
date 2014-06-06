@@ -16,7 +16,18 @@ namespace Importer.Corsavy
                         @"Data Source=LocalizeDb_DL_Corsavy.mdb;" + 
                         @"User Id=;Password=;";
 
-        // TODO: which languages do we import? (atm > 2k missing are removed)
+        // NOTE: Languages > 2k missing are removed, statistics as of 6/6/2014
+        //   Urdu 	urdu 	2538
+        //   Afrikaans 	af 	2537
+        //   Indonesian 	id 	2534
+        //   Persian 	fa 	2492
+        //   Thai 	th 	2491
+        //   Vietnamese 	vi 	2406
+        //   Goiserisch 	goisern 	2393
+        //   Belarusian 	be 	2366
+        //   Croatian 	hr 	2351
+        //   Hebrew 	he 	2343
+        //   Arabic 	ar 	2254
         private static readonly List<string> IgnoreOnImport = new List<string>()
         {
             "en", "goisern", // en isn't really in the database, goisern was a fake translation
