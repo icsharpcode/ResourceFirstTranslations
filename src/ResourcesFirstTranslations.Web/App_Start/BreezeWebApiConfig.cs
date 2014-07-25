@@ -17,7 +17,6 @@ namespace ResourcesFirstTranslations.Web.App_Start {
           name: "BreezeApi",
           routeTemplate: "breeze/{controller}/{action}"
       );
-    
     }
   }
 }

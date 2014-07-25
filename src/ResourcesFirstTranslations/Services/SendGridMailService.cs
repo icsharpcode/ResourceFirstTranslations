@@ -3,12 +3,11 @@ using System.Net;
 using System.Net.Mail;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using SendGridMail;
+using SendGrid;
 
 namespace ResourcesFirstTranslations.Services
 {
-    // http://sendgrid.com/docs/Code_Examples/csharp.html
+    // https://github.com/sendgrid/sendgrid-csharp#how-to-create-an-email
     public class SendGridMailService : IMailService
     {
         private readonly IConfigurationService _configurationService;
@@ -25,7 +24,7 @@ namespace ResourcesFirstTranslations.Services
                 string userName = _configurationService.SendGridUsername;
                 string password = _configurationService.SendGridPassword;
 
-                SendGrid message = SendGrid.GetInstance();
+                var message = new SendGridMessage();
 
                 message.From = new MailAddress(mm.From);
                 message.AddTo(mm.To);
@@ -33,7 +32,7 @@ namespace ResourcesFirstTranslations.Services
                 message.Text = mm.Body;
 
                 var credentials = new NetworkCredential(userName, password);
-                var transportWeb = Web.GetInstance(credentials);
+                var transportWeb = new Web(credentials);
                 await transportWeb.DeliverAsync(message).ConfigureAwait(false);
 
                 return true;
