@@ -223,6 +223,7 @@ namespace ResourcesFirstTranslations.Services
                 return await ctx.TranslationsJoinedResourceStringsViews
                     .AsNoTracking()
                     .Where(t => t.TranslatedValue != null &&
+                                t.TranslatedValue != "" && 
                                 t.FK_BranchId == branch &&
                                 t.FK_ResourceFileId == file &&
                                 t.Culture == culture)

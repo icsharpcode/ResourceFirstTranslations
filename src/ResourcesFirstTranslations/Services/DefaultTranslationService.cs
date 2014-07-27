@@ -228,8 +228,8 @@ namespace ResourcesFirstTranslations.Services
                 };
             }
             
-            // Properly format the filename, extension depends on the enum
-            string extension = "." + format.ToString();
+            // Properly format the filename, extension depends on the enum, and we always make it lowercase
+            string extension = "." + format.ToString().ToLower();
             string filename = String.Format(theFile.ResourceFileNameFormat, culture) +  extension;
 
             // Get the translations
