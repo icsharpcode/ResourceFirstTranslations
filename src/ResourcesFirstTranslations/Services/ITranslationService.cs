@@ -37,6 +37,6 @@ namespace ResourcesFirstTranslations.Services
         Task<Translation> EditTranslationAsync(int id, string translatedValue);
         Task<Translation> EditTranslationMultiBranchAsync(int id, string translatedValue, List<int> branchIds);
 
-        Task<ResourceFileForResult> GetResourceFileForAsync(int branch, int file, string culture, bool fillEmptyWithOriginalResourceString);
+        Task<ResourceFileForResult> GetResourceFileForAsync(int branch, int file, string culture, bool fillEmptyWithOriginalResourceString, ResourceFileFormat format);
     }
 }

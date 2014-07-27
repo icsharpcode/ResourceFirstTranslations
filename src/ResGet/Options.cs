@@ -36,6 +36,9 @@ namespace ResGet
         [Option('o', "overwrite", Required = false, DefaultValue = false, HelpText = "Overwrite existing files.")]
         public bool Overwrite { get; set; }
 
+        [Option('f', "format", Required = false, DefaultValue = "resources", HelpText = "Format: resources or resx.")]
+        public string Format { get; set; }
+
         [ParserState]
         public IParserState LastParserState { get; set; }
 

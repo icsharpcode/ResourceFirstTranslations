@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ResourcesFirstTranslations.Data;
+using ResourcesFirstTranslations.Models;
 using ResourcesFirstTranslations.Services;
 
 namespace ResourcesFirstTranslations.Web.Controllers
@@ -24,25 +25,43 @@ namespace ResourcesFirstTranslations.Web.Controllers
         }
 
         // http://localhost:19890/Resources/For?branch=500&file=1&culture=de
-        public async Task<ActionResult> For(int branch, int file, string culture)
+        public async Task<ActionResult> For(int branch, int file, string culture, string format)
         {
             try
             {
+                var resFormat = ResourceFormatStringToEnum(format);
                 bool fillEmpty = _configurationService.FillEmptyTranslationsWithOriginalValues;
-                var result = await _translationService.GetResourceFileForAsync(branch, file, culture, fillEmpty);
+                var result = await _translationService.GetResourceFileForAsync(branch, file, culture, fillEmpty, resFormat);
 
                 if (!result.Succeeded)
                 {
                     return HttpNotFound();
                 }
 
-                return File(result.Stream, "application/octet-stream", result.Filename);
+                string contentType = "application/octet-stream";
+                if (ResourceFileFormat.ResX == resFormat)
+                {
+                    contentType = "text/xml";
+                }
+
+                return File(result.Stream, contentType, result.Filename);
             }
             catch (Exception ex)
             {
                 Trace.TraceError(ex.ToString());
                 return HttpNotFound();
             }
+        }
+
+        // We default to .resources if the format cannot be parsed
+        private ResourceFileFormat ResourceFormatStringToEnum(string format)
+        {
+            if (0 == String.Compare("resx", format, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return ResourceFileFormat.ResX;
+            }
+
+            return ResourceFileFormat.Resources;
         }
 
         // http://localhost:19890/Resources/Missing?branch=500

@@ -57,9 +57,9 @@ namespace ResGet
             return new List<CultureStatistics>();
         }
 
-        public async Task<ResourceFile> GetResourceFileAsync(int branch, int file, string culture)
+        public async Task<ResourceFile> GetResourceFileAsync(int branch, int file, string culture, string format)
         {
-            var url = String.Format("{0}For?branch={1}&file={2}&culture={3}", _baseUrl, branch, file, culture);
+            var url = String.Format("{0}For?branch={1}&file={2}&culture={3}&format={4}", _baseUrl, branch, file, culture, format);
 
             var client = CreateHttpClient();
             try

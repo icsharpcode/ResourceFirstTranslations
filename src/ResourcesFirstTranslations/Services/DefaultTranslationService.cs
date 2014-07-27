@@ -208,7 +208,8 @@ namespace ResourcesFirstTranslations.Services
                 .ConfigureAwait(false);
         }
 
-        public async Task<ResourceFileForResult> GetResourceFileForAsync(int branch, int file, string culture, bool fillEmptyWithOriginalResourceString)
+        public async Task<ResourceFileForResult> GetResourceFileForAsync(int branch, int file, string culture, 
+            bool fillEmptyWithOriginalResourceString, ResourceFileFormat format)
         {
             var branches = await GetCachedBranchesAsync().ConfigureAwait(false);
             var resourceFiles = await GetCachedResourceFilesAsync().ConfigureAwait(false);
@@ -227,8 +228,9 @@ namespace ResourcesFirstTranslations.Services
                 };
             }
             
-            // Properly format the filename
-            string filename = String.Format(theFile.ResourceFileNameFormat, culture);
+            // Properly format the filename, extension depends on the enum
+            string extension = "." + format.ToString();
+            string filename = String.Format(theFile.ResourceFileNameFormat, culture) +  extension;
 
             // Get the translations
             var translations = await _dataService
@@ -246,7 +248,17 @@ namespace ResourcesFirstTranslations.Services
 
             // Create the resource file: First the translations, then fill with the original language strings (if requested)
             var ms = new MemoryStream();
-            var writer = new ResourceWriter(ms);
+            IResourceWriter writer = null;
+
+            // format decides the writer, both implement IResourceWriter
+            if (ResourceFileFormat.ResX == format)
+            {
+                writer = new ResXResourceWriter(ms);
+            }
+            else
+            {
+                writer = new ResourceWriter(ms);
+            }
 
             foreach (var t in translations)
             {

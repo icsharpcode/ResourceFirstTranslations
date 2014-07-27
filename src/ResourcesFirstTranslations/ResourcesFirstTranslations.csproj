@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="Models\CoTranslator.cs" />
     <Compile Include="Models\MissingTranslationsModel.cs" />
+    <Compile Include="Models\ResourceFileFormat.cs" />
     <Compile Include="Models\ResourceFileForResult.cs" />
     <Compile Include="Models\TranslationExportModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

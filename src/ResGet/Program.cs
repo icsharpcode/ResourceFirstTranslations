@@ -48,7 +48,7 @@ namespace ResGet
             if (!String.IsNullOrWhiteSpace(options.Language))
             {
                 result = await DownloadAndSaveResourceFilesAsync(client, options.Branch, fileIds, options.Language,
-                    options.Overwrite, options.TargetDirectory);
+                    options.Overwrite, options.TargetDirectory, options.Format);
 
                 return result;
             }
@@ -65,7 +65,7 @@ namespace ResGet
             foreach (var culture in stats)
             {
                 result = await DownloadAndSaveResourceFilesAsync(client, options.Branch, fileIds, culture.Culture,
-                    options.Overwrite, options.TargetDirectory);
+                    options.Overwrite, options.TargetDirectory, options.Format);
 
                 if (!result) return false;
             }
@@ -74,12 +74,12 @@ namespace ResGet
         }
 
         static async Task<bool> DownloadAndSaveResourceFilesAsync(RftResourcesClient client, int branch,
-            List<int> fileIds, string culture, bool overwriteExisting, string path)
+            List<int> fileIds, string culture, bool overwriteExisting, string path, string format)
         {
             foreach (int fileId in fileIds)
             {
                 Trace.TraceInformation("Downloading resource file {0} for language {1}, branch {2}", fileId, culture, branch);
-                ResourceFile theFile = await client.GetResourceFileAsync(branch, fileId, culture);
+                ResourceFile theFile = await client.GetResourceFileAsync(branch, fileId, culture, format);
 
                 if (null != theFile)
                 {
