@@ -10,3 +10,17 @@ Get all resource files for a branch
 Get all resources files for a specific language in a branch
 
 	resget --url "http://localhost:19890/Resources/" --branch 500 --language de 
+
+Get .resx instead .resources (eg SharpDevelop uses .resx even for translated languages)
+
+	resget --url "http://localhost:19890/Resources/" --branch 500 --language de --format resx
+
+
+Notes
+
+A common mistake is to leave off the trailing slash (/) for --url. It is mandatory because otherwise the paths will be wrong.
+
+A real-world usage of RFT can be found in the SharpDevelop repository:
+
+	https://github.com/icsharpcode/SharpDevelop/blob/master/src/Tools/ResGet/DownloadAll.bat
+
