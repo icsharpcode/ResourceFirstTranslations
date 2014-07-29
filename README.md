@@ -19,7 +19,12 @@ Translator credentials: _translator_, _translator_
 Administrator credentials: _admin_, _administrator_    	
 
 Certain operations are disallowed in the demo (eg creating new users, resetting a password)
-	
+
+__Videos / Screencasts__
+
+[Administration Area](https://www.youtube.com/watch?v=_sXc_iwqy5s)
+[Translators demo](https://www.youtube.com/watch?v=t7fSID0fFlw)
+
 # Documentation
 
 Please see the [wiki](https://github.com/icsharpcode/ResourceFirstTranslations/wiki)
@@ -33,6 +38,10 @@ and [Christoph Wille](https://github.com/christophwille) (backend). The specific
 was co-written by Daniel Grunwald, Siegfried Pammer and Christoph Wille.
 
 # Changelog
+
+## July 28th, 2014
+
+* RFT is in production use for SharpDevelop
 
 ## May 19th, go-live on Github
 
