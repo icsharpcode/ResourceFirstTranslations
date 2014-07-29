@@ -32,7 +32,7 @@
             if ($scope.myForm.$valid) {
                 vm.submitted = false;
                 toggleSpinner(true);
-                return datacontext.editResourceFile(vm.editItem).done(function(data) {
+                return datacontext.editResourceFile(vm.editItem).done(function(result) {
                     var scope = angular.element($("#editresourcefile-view")).scope();
                     if (result.Succeeded) {
                         scope.$apply(function () {
