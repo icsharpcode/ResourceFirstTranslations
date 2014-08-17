@@ -248,7 +248,6 @@
                     vm.items = data.results;
                     vm.items.forEach(function(item) {
                         item.Translations = [];
-                        
                     });
                     return vm.items, vm.branchesCount = data.inlineCount, vm.branchesFilteredCount = data.inlineCount;
                 }).fail(queryFailed);
